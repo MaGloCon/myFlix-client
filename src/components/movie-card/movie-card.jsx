@@ -1,4 +1,5 @@
-//destructered prop - movie is the name of the prop in main-view.jsx
+import PropTypes from 'prop-types';
+
 export const MovieCard =({movie, onMovieClick}) => {
   return(
     <div
@@ -6,7 +7,30 @@ export const MovieCard =({movie, onMovieClick}) => {
       onMovieClick(movie);
     }}
     >
-      {movie.Title}
+      {movie.title}
     </div>
   );
 };
+
+
+MovieCard.propTypes = { 
+  movie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    year: PropTypes.string.isRequired,
+    countries: PropTypes.arrayOf(PropTypes.string).isRequired,
+    genre: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+      })
+    ).isRequired,
+    director: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+      })
+    ).isRequired,
+    actors: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  onMovieClick: PropTypes.func.isRequired
+};
+
