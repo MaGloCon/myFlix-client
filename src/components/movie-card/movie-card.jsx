@@ -22,11 +22,13 @@ MovieCard.propTypes = {
     genre: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
+        description: PropTypes.string,
       })
     ).isRequired,
     director: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
+        description: PropTypes.string,
       })
     ).isRequired,
     actors: PropTypes.arrayOf(PropTypes.string),

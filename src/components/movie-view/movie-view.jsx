@@ -49,13 +49,13 @@ MovieView.propTypes = {
     countries: PropTypes.arrayOf(PropTypes.string).isRequired,
     genre: PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string.isRequired,
+        name: PropTypes.string,
         description: PropTypes.string,
       })
     ).isRequired,
     director: PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string.isRequired,
+        name: PropTypes.string,
         description: PropTypes.string,
       })
     ).isRequired,

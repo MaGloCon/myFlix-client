@@ -27509,10 +27509,12 @@ MovieCard.propTypes = {
         year: (0, _propTypesDefault.default).string.isRequired,
         countries: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).string).isRequired,
         genre: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).shape({
-            name: (0, _propTypesDefault.default).string
+            name: (0, _propTypesDefault.default).string,
+            description: (0, _propTypesDefault.default).string
         })).isRequired,
         director: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).shape({
-            name: (0, _propTypesDefault.default).string
+            name: (0, _propTypesDefault.default).string,
+            description: (0, _propTypesDefault.default).string
         })).isRequired,
         actors: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).string)
     }).isRequired,
@@ -28476,11 +28478,11 @@ MovieView.propTypes = {
         year: (0, _propTypesDefault.default).string.isRequired,
         countries: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).string).isRequired,
         genre: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).shape({
-            name: (0, _propTypesDefault.default).string.isRequired,
+            name: (0, _propTypesDefault.default).string,
             description: (0, _propTypesDefault.default).string
         })).isRequired,
         director: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).shape({
-            name: (0, _propTypesDefault.default).string.isRequired,
+            name: (0, _propTypesDefault.default).string,
             description: (0, _propTypesDefault.default).string
         })).isRequired,
         actors: (0, _propTypesDefault.default).arrayOf((0, _propTypesDefault.default).string)
