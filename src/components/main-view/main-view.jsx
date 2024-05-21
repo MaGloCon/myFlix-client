@@ -7,8 +7,8 @@ import { SignupView } from '../signup-view/signup-view';
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || '{}'));
+  const [token, setToken] = useState(localStorage.getItem("token"));
   
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -21,7 +21,6 @@ export const MainView = () => {
     })
       .then(response => response.json())
       .then((data) => {
-        // console.log('Fetched data:', data);
         if (data) {
           const moviefromApi = data.map((movie) => {
             return {
@@ -46,7 +45,7 @@ export const MainView = () => {
       .catch(error => console.error('Error:', error));
   }, [token]);
 
-    if (!user) {
+    if (Object.keys(user).length === 0) {
     return (
       <>
         <LoginView onLoggedIn={(user, token) => {
@@ -57,7 +56,7 @@ export const MainView = () => {
         <SignupView />
       </>
     );
-  }
+  };
  
   if (selectedMovie) {
     return (
@@ -85,7 +84,7 @@ export const MainView = () => {
           }}
         />
       ))}
-      <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
+      <button onClick={() => { setUser({}); setToken(null); localStorage.clear(); }}>Logout</button>
     </div>
   );
 
