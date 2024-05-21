@@ -10,7 +10,6 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Title: </span>
         {`${movie.title} ${movie.titleOriginal && movie.titleOriginal.length > 0 ? `(${movie.titleOriginal.join(', ')})` : ''}`}
       </div>
-    
       <div>
         <span>Country: </span>
         <span>{movie.countries.join(', ')}</span>
