@@ -1,19 +1,49 @@
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'react-bootstrap';
 import './movie-card.scss';
 
 export const MovieCard = ({ movie, onMovieClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = useCallback(() => setIsHovered(true), []);
+  const handleMouseLeave = useCallback(() => setIsHovered(false), []);
+  const handleClick = useCallback(() => onMovieClick(movie), [onMovieClick, movie]);
+
   return (
-    <Button onClick={() => onMovieClick(movie)} className="movie-button bg-transparent border-0 p-2">
-      <Card className="movie-card position-relative border-0 p-0" >
-        <Card.Img className="movie-image shadow-gradient" variant="link" src={movie.image} />
-        <div className="shadow-gradient position-absolute w-100 h-100"></div>
-        <Card.Body className="movie-body position-absolute bottom-0 bg-transparent text-white text-left" >
-          <Card.Title className="pb-0 mb-0">{movie.title}</Card.Title>
-          <Card.Text>{movie.director && movie.director.length > 0 ? `${movie.director[0].Name}, ${movie.year}` : movie.year}</Card.Text>
+    <div 
+      className={`movie-card-wrapper ${isHovered ? 'hovered' : ''}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
+      <Card className="movie-card shadow">
+        <Card.Img className="movie-image" variant="link" src={movie.image} />
+        <div className="shadow-gradient"></div>
+          <Card.Body className="movie-body bg-transparent text-left">
+            <Card.Title className="movie-title text-uppercase">{movie.title}</Card.Title> 
+            {/* <Card.Text>{movie.director && movie.director.length > 0 ? `${movie.director[0].Name}, ${movie.year}` : movie.year}</Card.Text> */}
+          </Card.Body>
+      </Card>
+
+      {isHovered && (
+        <Card className={`hovered-movie-card top-0 ${isHovered ? 'show' : 'hide'}`}>
+        <Card.Body className="hovered-body bg-white shadow">
+          <div className="d-flex justify-content-between">
+            <Button variant="secondary"> Add to favorite</Button>
+            <Button variant="primary" onClick={() => {onMovieClick(movie)}}>More</Button> 
+          </div>
+          <Card.Text>
+            {
+              movie.director && movie.director.length > 0 
+                  ? movie.director.map(director => director.Name).join(', ') 
+                  : 'No Director Information'
+            }
+          </Card.Text>
+          <Card.Text>{movie.year}</Card.Text>
         </Card.Body>
       </Card>
-    </Button>
+      )}
+    </div>
   );
 };
 
