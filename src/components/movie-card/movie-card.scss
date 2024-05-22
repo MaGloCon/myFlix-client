@@ -1,0 +1,30 @@
+$card-width: 340px;
+$card-height: 190px;
+
+.movie-button {
+  .movie-card { 
+    overflow: hidden;
+  }
+  .movie-image {
+    width: 340px;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 0;
+    filter: brightness(115%);
+  }
+  .shadow-gradient {
+  content: "";
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  z-index: 1;
+  }
+  .text-left {
+    text-align: left;
+  }
+  .movie-body{
+    z-index: 2;
+    bottom: 0;
+  }
+}

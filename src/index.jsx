@@ -1,10 +1,16 @@
 import { createRoot } from 'react-dom/client';
-import { MainView } from "./components/main-view/main-view"; 
-
+import { MainView } from "./components/main-view/main-view";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./index.scss";
-//
+import Container from 'react-bootstrap/Container';
+
 const CinephileApplication = () => {
-  return <MainView />;
+  
+  return (
+    <Container>
+      < MainView />
+    </Container>
+  );
 };
 
 const container = document.querySelector("#root"); 

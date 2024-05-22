@@ -1,4 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Col, Row } from 'react-bootstrap';
+
+import { Container, Navbar, Nav} from 'react-bootstrap';
+
+
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
@@ -22,6 +27,7 @@ export const MainView = () => {
       .then(response => response.json())
       .then((data) => {
         if (data) {
+          console.log(data);
           const moviefromApi = data.map((movie) => {
             return {
               id: movie._id,
@@ -39,7 +45,7 @@ export const MainView = () => {
           });
           setMovies(moviefromApi);
         } else {
-          console.error('Movies data is not available');
+          console.error('Movie data is not available');
         }
       })
       .catch(error => console.error('Error:', error));
@@ -74,18 +80,19 @@ export const MainView = () => {
   }
 
   return (
-    <div>
-      {movies.map((movie) => (
-        <MovieCard 
-          key={movie.id}  
-          movie={movie} 
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-        />
-      ))}
-      <button onClick={() => { setUser({}); setToken(null); localStorage.clear(); }}>Logout</button>
-    </div>
+      <Container>
+        <Row className="justify-content-center" >
+          {movies.map((movie) => (
+            <Col xs={'auto'} md={'auto'} lg={'auto'} xl={'4'} xxl={'auto'} key={movie.id}>
+              <MovieCard  
+                movie={movie} 
+                onMovieClick={(newSelectedMovie) => {
+                  setSelectedMovie(newSelectedMovie);
+                }}
+              />
+            </Col>
+          ))}
+        </Row>
+      </Container>
   );
-
 };
