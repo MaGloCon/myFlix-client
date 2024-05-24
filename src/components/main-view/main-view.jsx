@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-
-import { Col, Row } from 'react-bootstrap';
-import { Container} from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
+import { Spinner} from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
 
 import { MovieCard } from '../movie-card/movie-card';
@@ -18,13 +17,20 @@ export const MainView = () => {
 
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+  const totalPages = Math.ceil(movies.length / moviesPerPage);
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
 
     if (!token) return;
+
+    setIsLoading(true); 
 
     fetch('https://cinephile-dc1b75a885d0.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` },
@@ -48,11 +54,12 @@ export const MainView = () => {
             };
           });
           setMovies(moviefromApi);
+          setIsLoading(false);
         } else {
           console.error('Movie data is not available');
         }
       })
-      .catch(error => console.error('Error:', error));
+      .catch(error => console.error('Error:', error))
   }, [token]);
 
     if (Object.keys(user).length === 0) {
@@ -67,7 +74,15 @@ export const MainView = () => {
       </>
     );
   };
- 
+  
+  if (isLoading) {
+  return (
+    <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+      <Spinner animation="grow" />
+    </Container>
+  );
+}
+
   if (selectedMovie) {
     return (
       <MovieView 
@@ -83,33 +98,38 @@ export const MainView = () => {
     return <div>The list is empty!</div>;
   }
 
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
-
-  const totalPages = Math.ceil(movies.length / moviesPerPage);
-
+ 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        {currentMovies.map((movie) => (
-          <Col xs={'auto'} md={'auto'} lg={'auto'} xl={'4'} xxl={'auto'} key={movie.id}>
-            <MovieCard  
-              movie={movie} 
-              onMovieClick={(newSelectedMovie) => {
-                setSelectedMovie(newSelectedMovie);
-              }}
-            />
-          </Col>
-        ))}
-      </Row>
-      <Pagination>
-        {[...Array(totalPages).keys()].map(page =>
-          <Pagination.Item key={page+1} active={page+1 === currentPage} onClick={() => setCurrentPage(page+1)}>
-            {page+1}
-          </Pagination.Item>
-        )}
-      </Pagination>
-    </Container>
+    <>
+      <button className="btn btn-primary" onClick={() => { setUser({}); setToken(null); localStorage.clear(); }}>Logout</button>
+      <Container>
+        <Row className="justify-content-center">
+          <Container className="text-center">
+            <h1>Browse</h1>
+            <p>Explore the movies in the Cinephile Database</p>
+          </Container>
+          {currentMovies.map((movie) => (
+            <Col xs={'auto'} md={'auto'} lg={'auto'} xl={'4'} xxl={'auto'} key={movie.id}>
+              <MovieCard  
+                movie={movie} 
+                onMovieClick={(newSelectedMovie) => {
+                  setSelectedMovie(newSelectedMovie);
+                }}
+              />
+            </Col>
+          ))}
+        </Row>
+      </Container>
+      <Pagination className="justify-content-center mt-5">
+          {[...Array(totalPages).keys()].map(page =>
+            <Pagination.Item 
+              key={page+1} 
+              active={page+1 === currentPage} 
+              onClick={() => setCurrentPage(page+1)}>
+              {page+1}
+            </Pagination.Item>
+          )}
+        </Pagination>
+    </>
   );
 };
