@@ -75,6 +75,25 @@
   position: absolute;
 }
 
+img {
+  z-index: 0;
+  width: 100%;
+  position: relative;
+}
+
+img.shadow-gradient:after {
+  content: "";
+  z-index: 1;
+  background: linear-gradient(to top, #0000, #000c);
+  position: absolute;
+  inset: 0;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+}
+
 :root, [data-bs-theme="light"] {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

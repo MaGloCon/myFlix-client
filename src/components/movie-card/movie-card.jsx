@@ -37,10 +37,6 @@ export const MovieCard = ({ movie, onMovieClick }) => {
               <FontAwesomeIcon icon={faPlusCircle} size="2x"/>
             {/* </div> */}
           </div>
-          <Card.Body className="card-text">
-            <Card.Text>{`${movie.description.split('.')[0]}.`}</Card.Text>
-            <Card.Text>{movie.countries.join(', ')}</Card.Text>
-          </Card.Body>
         </Card.Body>
       </Card>
       )}

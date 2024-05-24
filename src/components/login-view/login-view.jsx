@@ -1,12 +1,17 @@
 import React from 'react';
 import { useState } from 'react';
+import { Card, Form, Button } from 'react-bootstrap';
 
-export const LoginView = ({ onLoggedIn }) => {
+
+import './login-view.scss';
+import logo from  '../../assets/logo.svg';
+
+export const LoginView = ({ onLoggedIn, onShowSignup }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = (event) => {
-    event.preventDefault(); //prevents the default refresh after submit
 
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
     const data = {
       Username: username,
       Password: password
@@ -35,28 +40,41 @@ export const LoginView = ({ onLoggedIn }) => {
       });
     };
     
-
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Username:</label>
-      <input
-        type="text"
-        minLength={5}
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <br />
-      <label>Password:</label>
-      <input
-        type="password"
-        minLength={8}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <br />
-      <button type="submit">Submit</button>
-    </form>
-  ); 
+    <Card className="car-min-width justify-column-center align-item-center shadow">
+      <Card.Img variant="top" src={logo} alt="Cinephile logo" className="logo w-25 d-block mx-auto mt-4"  />
+      <Card.Title className="fs-1 text-center mt-2">Welcome Back</Card.Title>
+      <Card.Body className="mt-1">
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-2" controlId="Username">
+            <Form.Label className="fs-6">Username <span className="text-danger">*</span></Form.Label>
+            <Form.Control
+              type="text"
+              // placeholder="Enter username"
+              minLength={5}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="Password">
+            <Form.Label className="fs-6">Password <span className="text-danger">*</span></Form.Label>
+              <Form.Control
+                type="password"
+                // placeholder="Enter password"
+                minLength={8}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+          </Form.Group>
+          <Button variant="dark" type="submit" className="w-100 mt-3">Log in</Button>
+        </Form>
+        <div className="d-flex align-items-center justify-content-center mt-4">
+          <p className="m-0">Don't have an account?</p>
+          <Button variant="link" onClick={onShowSignup} className="text-dark fs-7">Sign Up</Button>
+        </div>
+      </Card.Body>
+    </Card>
+  );
 };

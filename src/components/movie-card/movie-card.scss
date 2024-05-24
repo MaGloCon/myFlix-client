@@ -12,10 +12,11 @@ $transition-style: ease-in-out;
   transition: transform $transition-time $transition-style;
   transition-delay: $transition-delay;
 
-  &.hovered, &:hover {
+  &.hovered,
+  &:hover {
     transform: scale(1.1);
     z-index: $high-z-index;
-  
+
     .movie-card {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -45,6 +46,7 @@ $transition-style: ease-in-out;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
       z-index: 0;
     }
+
     .movie-title {
       color: white;
       padding: 0;
@@ -54,6 +56,7 @@ $transition-style: ease-in-out;
     .card-text {
       font-size: 0.8rem;
     }
+
     .movie-body {
       position: absolute;
       bottom: 0;
@@ -85,4 +88,3 @@ $transition-style: ease-in-out;
     }
   }
 }
-

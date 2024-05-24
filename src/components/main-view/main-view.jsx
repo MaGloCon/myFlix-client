@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Container, Col, Row } from 'react-bootstrap';
-import { Spinner} from 'react-bootstrap';
-import { Pagination } from 'react-bootstrap';
+import { Container, Col, Row, Spinner, Pagination } from 'react-bootstrap';
 
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 
+
 export const MainView = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || '{}'));
   const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const [showSignup, setShowSignup] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 21;
@@ -25,9 +26,6 @@ export const MainView = () => {
   const totalPages = Math.ceil(movies.length / moviesPerPage);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    const storedToken = localStorage.getItem("token");
-
     if (!token) return;
 
     setIsLoading(true); 
@@ -62,35 +60,56 @@ export const MainView = () => {
       .catch(error => console.error('Error:', error))
   }, [token]);
 
-    if (Object.keys(user).length === 0) {
+  if (Object.keys(user).length === 0) {
     return (
       <>
-        <LoginView onLoggedIn={(user, token) => {
-          setUser(user);
-          setToken(token);
-        }} />
-        or
-        <SignupView />
+        {showSignup ? (
+          <Container className="d-flex justify-content-center align-items-center vh-100">
+            <Row className="d-flex justify-content-center align-items-center vw-100">
+              <Col xs={12} md={7}>
+                <SignupView onBackToLogin={() => setShowSignup(false)} />
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <Container className="d-flex justify-content-center align-items-center vh-100">
+            <Row className="d-flex justify-content-center align-items-center vw-100">
+              <Col sm={12} md={8}>
+                <LoginView 
+                  onLoggedIn={(user, token) => {
+                    setUser(user);
+                    setToken(token);
+                  }} 
+                  onShowSignup={() => setShowSignup(true)}
+                />
+              </Col>
+            </Row>
+          </Container>
+        )}
       </>
     );
-  };
+  }
   
   if (isLoading) {
-  return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-      <Spinner animation="grow" />
-    </Container>
-  );
-}
+    return (
+      <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <Spinner animation="grow" />
+      </Container>
+    );
+  }
 
   if (selectedMovie) {
     return (
-      <MovieView 
-        movie={selectedMovie}
-        onBackClick={() => {
-          setSelectedMovie(null);
-        }}
-      />
+      <Row className="justify-content-md-center">
+        <Col md={8}>
+          <MovieView
+            movie={selectedMovie}
+            onBackClick={() => {
+              setSelectedMovie(null);
+            }}
+          />
+        </Col>
+      </Row>
     );
   }
 
@@ -102,14 +121,14 @@ export const MainView = () => {
   return (
     <>
       <button className="btn btn-primary" onClick={() => { setUser({}); setToken(null); localStorage.clear(); }}>Logout</button>
-      <Container>
+
+        <Container className="text-center">
+          <h1>Browse</h1>
+          <p>Explore the movies in the Cinephile Database</p>
+        </Container>
         <Row className="justify-content-center">
-          <Container className="text-center">
-            <h1>Browse</h1>
-            <p>Explore the movies in the Cinephile Database</p>
-          </Container>
           {currentMovies.map((movie) => (
-            <Col xs={'auto'} md={'auto'} lg={'auto'} xl={'4'} xxl={'auto'} key={movie.id}>
+            <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
               <MovieCard  
                 movie={movie} 
                 onMovieClick={(newSelectedMovie) => {
@@ -119,7 +138,7 @@ export const MainView = () => {
             </Col>
           ))}
         </Row>
-      </Container>
+      
       <Pagination className="justify-content-center mt-5">
           {[...Array(totalPages).keys()].map(page =>
             <Pagination.Item 
