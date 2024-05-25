@@ -1,17 +1,14 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-import './movie-view.scss';
 
 export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div>
-      <div className="position-relative text-white text-uppercase" style={{ position: 'relative' }}>
-        <img className="shadow-gradient" src={movie.image} alt={movie.title}/>
-        <div style={{ position: 'absolute', bottom: '0', left: '0' }}>
-          <h1>{movie.title}</h1>
-          <p>{movie.titleOriginal.join(' | ')}</p>
-        </div>
+      <div>
+        <img height={300} src={movie.image} alt={movie.title}/>
+      </div>
+      <div>
+        <span>Title: </span>
+        {`${movie.title} ${movie.titleOriginal && movie.titleOriginal.length > 0 ? `(${movie.titleOriginal.join(', ')})` : ''}`}
       </div>
       <div>
         <span>Country: </span>
