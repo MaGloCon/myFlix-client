@@ -18,7 +18,7 @@ export const MainView = () => {
 
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const indexOfLastMovie = currentPage * moviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
@@ -58,6 +58,7 @@ export const MainView = () => {
         }
       })
       .catch(error => console.error('Error:', error))
+      .finally(() => setIsLoading(false))
   }, [token]);
 
   if (Object.keys(user).length === 0) {

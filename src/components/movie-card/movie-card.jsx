@@ -33,9 +33,7 @@ export const MovieCard = ({ movie, onMovieClick }) => {
         <Card.Body className="hovered-body bg-white shadow pt-1">
           <div className="d-flex justify-content-between">
             <Button variant="btn btn-primary" onClick={() => {onMovieClick(movie)}}>More</Button> 
-            {/* <div onClick={yourClickHandlerFunction}> */}
               <FontAwesomeIcon icon={faPlusCircle} size="2x"/>
-            {/* </div> */}
           </div>
         </Card.Body>
       </Card>

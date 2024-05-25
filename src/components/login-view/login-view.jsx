@@ -50,7 +50,7 @@ export const LoginView = ({ onLoggedIn, onShowSignup }) => {
             <Form.Label className="fs-6">Username <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="text"
-              // placeholder="Enter username"
+              placeholder="Enter username"
               minLength={5}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -61,7 +61,7 @@ export const LoginView = ({ onLoggedIn, onShowSignup }) => {
             <Form.Label className="fs-6">Password <span className="text-danger">*</span></Form.Label>
               <Form.Control
                 type="password"
-                // placeholder="Enter password"
+                placeholder="Enter password"
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
