@@ -6,18 +6,16 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './movie-card.scss';
 
-export const MovieCard = ({ movie, onMovieClick }) => {
+export const MovieCard = ({ movie }) => {
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
   const handleMouseLeave = useCallback(() => setIsHovered(false), []);
-  const handleClick = useCallback(() => onMovieClick(movie), [onMovieClick, movie]);
 
   return (
     <div 
       className={`movie-card-wrapper ${isHovered ? 'hovered' : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
     >
       <Card className="movie-card shadow">
         <Card.Img className="movie-image" variant="link" src={movie.image} />
@@ -32,7 +30,7 @@ export const MovieCard = ({ movie, onMovieClick }) => {
         <Card className={`hovered-movie-card top-0 ${isHovered ? 'show' : 'hide'}`}>
         <Card.Body className="hovered-body bg-white shadow pt-1">
           <div className="d-flex justify-content-between">
-            <Button variant="btn btn-primary" onClick={() => {onMovieClick(movie)}}>More</Button> 
+            <Button variant="btn btn-primary">More</Button> 
               <FontAwesomeIcon icon={faPlusCircle} size="2x"/>
           </div>
         </Card.Body>
@@ -65,6 +63,5 @@ MovieCard.propTypes = {
     ).isRequired,
     actors: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
 };
 

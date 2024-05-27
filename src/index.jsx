@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { MainView } from "./components/main-view/main-view";
-import 'bootstrap/scss/bootstrap.scss'; // "~" for node-modules is not recognized by Parcel
+import 'bootstrap/scss/bootstrap.scss'; 
 import "./index.scss";
 import Container from 'react-bootstrap/Container';
 

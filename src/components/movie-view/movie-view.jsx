@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import './movie-view.scss';
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movie }) => {
   return (
     <div>
       <div className="position-relative text-white text-uppercase" style={{ position: 'relative' }}>
@@ -37,7 +37,7 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Actors: </span>
         <span>{movie.actors.join(', ')}</span>
       </div>
-      <button onClick={onBackClick}>Back</button>
+      <button>Back</button>
     </div>
   );
 };
@@ -63,5 +63,4 @@ MovieView.propTypes = {
     ).isRequired,
     actors: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  onBackClick: PropTypes.func.isRequired
 };

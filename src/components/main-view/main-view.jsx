@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Col, Row, Spinner, Pagination } from 'react-bootstrap';
+import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
@@ -13,53 +13,53 @@ export const MainView = () => {
 
   const [showSignup, setShowSignup] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const moviesPerPage = 21;
-
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
-  const totalPages = Math.ceil(movies.length / moviesPerPage);
-
   useEffect(() => {
+  const fetchMovies = async () => {
     if (!token) return;
 
     setIsLoading(true); 
 
-    fetch('https://cinephile-dc1b75a885d0.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(response => response.json())
-      .then((data) => {
-        if (data) {
-          const moviefromApi = data.map((movie) => {
-            return {
-              id: movie._id,
-              image: movie.ImagePath,
-              title: movie.Title,
-              titleOriginal: movie.TitleOrigin,
-              description: movie.Description,
-              year: movie.Year,
-              countries: movie.Countries,
-              genre: movie.Genre,
-              director: movie.Director,
-              actors: movie.Actors,
-              featured: movie.Featured,
-            };
-          });
-          setMovies(moviefromApi);
-          setIsLoading(false);
-        } else {
-          console.error('Movie data is not available');
-        }
-      })
-      .catch(error => console.error('Error:', error))
-      .finally(() => setIsLoading(false))
-  }, [token]);
+    try{
+      const response = await fetch('https://cinephile-dc1b75a885d0.herokuapp.com/movies', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+
+      if (data) {
+        const moviefromApi = data.map((movie) => {
+          return {
+            id: movie._id,
+            image: movie.ImagePath,
+            title: movie.Title,
+            titleOriginal: movie.TitleOrigin,
+            description: movie.Description,
+            year: movie.Year,
+            countries: movie.Countries,
+            genre: movie.Genre,
+            director: movie.Director,
+            actors: movie.Actors,
+            featured: movie.Featured,
+          };
+        });
+        setMovies(moviefromApi);
+        setIsLoading(false);
+      } else{
+        console.error('Movie data is not available');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchMovies();
+}, [token]);
 
   if (Object.keys(user).length === 0) {
     return (
@@ -128,7 +128,7 @@ export const MainView = () => {
           <p>Explore the movies in the Cinephile Database</p>
         </Container>
         <Row className="justify-content-center">
-          {currentMovies.map((movie) => (
+          {movies.map((movie) => (
             <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
               <MovieCard  
                 movie={movie} 
@@ -139,17 +139,6 @@ export const MainView = () => {
             </Col>
           ))}
         </Row>
-      
-      <Pagination className="justify-content-center mt-5">
-          {[...Array(totalPages).keys()].map(page =>
-            <Pagination.Item 
-              key={page+1} 
-              active={page+1 === currentPage} 
-              onClick={() => setCurrentPage(page+1)}>
-              {page+1}
-            </Pagination.Item>
-          )}
-        </Pagination>
     </>
   );
 };

@@ -2,15 +2,14 @@ import{ useState } from "react";
 import {Form, Button, Image} from 'react-bootstrap';
 
 import './signup-view.scss';
-import logo from  '../../assets/logo.svg'
 
-export const SignupView = ({ onBackToLogin }) => {
+export const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const data = {
@@ -20,22 +19,25 @@ export const SignupView = ({ onBackToLogin }) => {
       Birthday: birthday
     };
 
-    fetch("https://cinephile-dc1b75a885d0.herokuapp.com/users/signup", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then((response) => {
+    try {
+      const response = await fetch("https://cinephile-dc1b75a885d0.herokuapp.com/users/signup", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }); 
+    
       if (response.ok) {
         alert("Signup successful");
         window.location.reload();
       } else {
         alert("Signup failed");
       }
-    });
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
 
   return (
     <div className="shadow p-4 bg-white rounded">
@@ -90,7 +92,7 @@ export const SignupView = ({ onBackToLogin }) => {
           </Form>
           <div className="d-flex justify-content-center align-items-center mt-4">
             <p className="m-0">Already have an account?</p>
-            <Button variant="link" onClick={onBackToLogin} className="text-dark fs-7">Login</Button>
+            {/* <Button variant="link" onClick={onBackToLogin} className="text-dark fs-7">Login</Button> */}
           </div>
     </div>   
   );

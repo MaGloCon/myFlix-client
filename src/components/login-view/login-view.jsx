@@ -6,38 +6,39 @@ import { Card, Form, Button } from 'react-bootstrap';
 import './login-view.scss';
 import logo from  '../../assets/logo.svg';
 
-export const LoginView = ({ onLoggedIn, onShowSignup }) => {
+export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); 
     const data = {
       Username: username,
       Password: password
     };
 
-    fetch('https://cinephile-dc1b75a885d0.herokuapp.com/login', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data)
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Login response: ", data);
-        if (data.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("token", data.token);
-          onLoggedIn(data.user, data.token);
+    try {
+      const response = await fetch('https://cinephile-dc1b75a885d0.herokuapp.com/login', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+
+      const responseData = await response.json();
+      console.log("Login response: ", responseData);
+     
+        if (responseData.user) {
+          localStorage.setItem("user", JSON.stringify(responseData.user));
+          localStorage.setItem("token", responseData.token);
+          onLoggedIn(responseData.user, responseData.token);
         } else {
           alert("No such user");
         }
-      })
-      .catch((e) => {
+      } catch (e) {
         alert("Something went wrong");
-      });
+      };
     };
     
   return (
@@ -72,7 +73,7 @@ export const LoginView = ({ onLoggedIn, onShowSignup }) => {
         </Form>
         <div className="d-flex align-items-center justify-content-center mt-4">
           <p className="m-0">Don't have an account?</p>
-          <Button variant="link" onClick={onShowSignup} className="text-dark fs-7">Sign Up</Button>
+          <Button variant="link" className="text-dark fs-7">Sign Up</Button>
         </div>
       </Card.Body>
     </Card>
