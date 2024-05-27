@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
 import { MovieCard } from '../movie-card/movie-card';
@@ -8,13 +9,10 @@ import { SignupView } from '../signup-view/signup-view';
 
 
 export const MainView = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || '{}'));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || 'null'));
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const [showSignup, setShowSignup] = useState(false);
-
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -60,36 +58,6 @@ export const MainView = () => {
 
   fetchMovies();
 }, [token]);
-
-  if (Object.keys(user).length === 0) {
-    return (
-      <>
-        {showSignup ? (
-          <Container className="d-flex justify-content-center align-items-center vh-100">
-            <Row className="d-flex justify-content-center align-items-center vw-100">
-              <Col xs={12} md={7}>
-                <SignupView onBackToLogin={() => setShowSignup(false)} />
-              </Col>
-            </Row>
-          </Container>
-        ) : (
-          <Container className="d-flex justify-content-center align-items-center vh-100">
-            <Row className="d-flex justify-content-center align-items-center vw-100">
-              <Col sm={12} md={8}>
-                <LoginView 
-                  onLoggedIn={(user, token) => {
-                    setUser(user);
-                    setToken(token);
-                  }} 
-                  onShowSignup={() => setShowSignup(true)}
-                />
-              </Col>
-            </Row>
-          </Container>
-        )}
-      </>
-    );
-  }
   
   if (isLoading) {
     return (
@@ -99,46 +67,82 @@ export const MainView = () => {
     );
   }
 
-  if (selectedMovie) {
-    return (
-      <Row className="justify-content-md-center">
-        <Col md={8}>
-          <MovieView
-            movie={selectedMovie}
-            onBackClick={() => {
-              setSelectedMovie(null);
-            }}
-          />
-        </Col>
-      </Row>
-    );
-  }
-
-  if (movies.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-
- 
   return (
-    <>
-      <button className="btn btn-primary" onClick={() => { setUser({}); setToken(null); localStorage.clear(); }}>Logout</button>
+    <BrowserRouter>
+      <Routes>
+        <Route 
+          path="/signup" 
+          element={
+            <>
+              {user ? (
+                <Navigate to="/" />
+              ) : (
+                <Container>
+                  <SignupView/>
+                </Container>
+              )}
+            </>
+          }
+        />
 
-        <Container className="text-center">
-          <h1>Browse</h1>
-          <p>Explore the movies in the Cinephile Database</p>
-        </Container>
-        <Row className="justify-content-center">
-          {movies.map((movie) => (
-            <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
-              <MovieCard  
-                movie={movie} 
-                onMovieClick={(newSelectedMovie) => {
-                  setSelectedMovie(newSelectedMovie);
-                }}
-              />
-            </Col>
-          ))}
-        </Row>
-    </>
+        <Route 
+          path="/login" 
+          element={
+            <>
+              {user ? (
+                <Navigate to="/" />
+              ) : (
+                <Container>
+                  <LoginView 
+                    onLoggedIn={(user) => {
+                      setUser(user);
+                      setToken(token);
+                    }} 
+                  />
+                </Container>
+              )}
+            </>
+          }
+        />
+
+        <Route 
+          path="/movies/:movieId"
+          element={
+            <>
+              {!user ? (
+                <Navigate to="/login" replace />
+              ) : movies.length === 0 ? ( 
+                <Container className="d-flex justify-content-center">The list is empty!</Container>
+              ) : (
+                <MovieView movies={movies}/>
+              )}
+            </>
+          }
+        />
+
+        <Route 
+          path="/" 
+          element={
+            <>
+              {!user ? (
+                <Navigate to="/login" replace />
+              ) : movies.length === 0 ? (
+                <Col>The list is empty!</Col>
+              ) : ( 
+              <Row className="d-flex justify-content-center">
+                {movies.map((movie) => (
+                  <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
+                    <MovieCard  
+                      movie={movie} 
+                    />
+                  </Col>
+                ))}
+              </Row>
+            )}
+          </>
+        }
+      />
+      </Routes>
+    </BrowserRouter>
   );
 };

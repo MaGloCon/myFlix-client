@@ -1,13 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Image } from "react-bootstrap";
+
+import { BsArrowLeftCircle } from "react-icons/bs";
+
 
 import './movie-view.scss';
 
-export const MovieView = ({ movie }) => {
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  const movie = movies.find(movie => movie.id === movieId);
+
   return (
     <div>
       <div className="position-relative text-white text-uppercase" style={{ position: 'relative' }}>
-        <img className="shadow-gradient" src={movie.image} alt={movie.title}/>
+        <Image className="shadow-gradient" src={movie.image} alt={movie.title}/>
         <div style={{ position: 'absolute', bottom: '0', left: '0' }}>
           <h1>{movie.title}</h1>
           <p>{movie.titleOriginal.join(' | ')}</p>
@@ -37,17 +46,24 @@ export const MovieView = ({ movie }) => {
         <span>Actors: </span>
         <span>{movie.actors.join(', ')}</span>
       </div>
-      <button>Back</button>
+      <Link to="/">
+          <BsArrowLeftCircle 
+            className="back-button" 
+            size={40}/>
+      </Link>
     </div>
   );
 };
 
 MovieView.propTypes = { 
-  movie: PropTypes.shape({
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     titleOriginal: PropTypes.arrayOf(PropTypes.string),
     image: PropTypes.string.isRequired,
     year: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     countries: PropTypes.arrayOf(PropTypes.string).isRequired,
     genre: PropTypes.arrayOf(
       PropTypes.shape({
@@ -57,10 +73,14 @@ MovieView.propTypes = {
     ).isRequired,
     director: PropTypes.arrayOf(
       PropTypes.shape({
+        id: PropTypes.string,
         name: PropTypes.string,
-        description: PropTypes.string,
+        bio: PropTypes.string,
+        birth: PropTypes.string,
+        death: PropTypes.string,
       })
     ).isRequired,
     actors: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+    })
+  ).isRequired,
 };
