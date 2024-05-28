@@ -89,6 +89,62 @@ img.shadow-gradient:after {
   inset: 0;
 }
 
+.movie-details-wrapper {
+  flex-direction: column;
+  justify-content: end;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.movie-details-wrapper .shadow-gradient {
+  background: linear-gradient(#0000, #000);
+  height: 80%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.movie-details-wrapper .Details {
+  clear: both;
+  flex-wrap: wrap;
+  padding: 2px;
+  display: flex;
+}
+
+.movie-details-wrapper .back-button {
+  fill: #fff;
+  opacity: .7;
+  height: 40px;
+}
+
+.movie-details-wrapper .back-button:hover {
+  fill: #fff;
+  opacity: 1;
+}
+
+.movie-details-wrapper .fav-button {
+  fill: #fff;
+  opacity: .8;
+  height: 40px;
+}
+
+.movie-details-wrapper .fav-button:hover {
+  fill: #fff;
+  opacity: 1;
+}
+
+.text-shadow {
+  text-shadow: 0 0 10px #00000080;
+}
+
+@media (width <= 991.98px) {
+  .hide-on-small {
+    display: none;
+  }
+}
+
 :root, [data-bs-theme="light"] {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

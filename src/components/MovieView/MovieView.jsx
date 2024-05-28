@@ -1,59 +1,43 @@
 import React from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Image } from "react-bootstrap";
-
-import { BsArrowLeftCircle } from "react-icons/bs";
-
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { Container, Col } from "react-bootstrap";
 
 import './MovieView.scss';
+import { MovieHero } from './MovieViewSections/MovieHero/MovieHero';
+import { MovieDescription } from './MovieViewSections/MovieDescription/MovieDescription';
+import { MovieDirector } from './MovieViewSections/MovieDirector/MovieDirector';
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
   const movie = movies.find(movie => movie.id === movieId);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  if (!movie) {
+    return <div>Movie not found</div>;
+  }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    navigate(location.pathname, { replace: true });
+  }, [movieId]);
 
   return (
-    <div>
-      <div className="position-relative text-white text-uppercase" style={{ position: 'relative' }}>
-        <Image className="shadow-gradient" src={movie.image} alt={movie.title}/>
-        <div style={{ position: 'absolute', bottom: '0', left: '0' }}>
-          <h1>{movie.title}</h1>
-          <p>{movie.titleOriginal.join(' | ')}</p>
-        </div>
+    <>
+      <MovieHero movie={movie} />
+      <div style={{ boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)' }}>
+        <Container>
+          <Col sm={12} md={8} className="pt-5">
+            <MovieDescription movie={movie} />
+            <MovieDirector movie={movie} />
+          </Col>
+        </Container>
       </div>
-      <div>
-        <span>Country: </span>
-        <span>{movie.countries.join(', ')}</span>
-      </div>
-      <div>
-        <span>Year: </span>
-        <span>{movie.year}</span>
-      </div>
-      <div>
-        <span>Genre: </span>
-        <span>{movie.genre.map(g => g.Name).join(', ')}</span>
-      </div>
-       <div>
-        <span>Description: </span>
-        <span>{movie.description}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.director.map(d => d.Name).join(', ')}</span>
-      </div>
-      <div>
-        <span>Actors: </span>
-        <span>{movie.actors.join(', ')}</span>
-      </div>
-      <Link to="/">
-          <BsArrowLeftCircle 
-            className="back-button" 
-            size={40}/>
-      </Link>
-    </div>
+    </>
   );
-};
+};     
 
 MovieView.propTypes = { 
   movies: PropTypes.arrayOf(
