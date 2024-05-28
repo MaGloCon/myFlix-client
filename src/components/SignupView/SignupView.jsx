@@ -1,7 +1,7 @@
 import{ useState } from "react";
 import {Form, Button, Image} from 'react-bootstrap';
 
-import './signup-view.scss';
+import './SignupView.scss';
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");

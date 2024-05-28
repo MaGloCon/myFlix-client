@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
-import { MovieCard } from '../movie-card/movie-card';
-import { MovieView } from '../movie-view/movie-view';
-import { LoginView } from '../login-view/login-view';
-import { SignupView } from '../signup-view/signup-view';
+import { MovieCard } from '../MovieCard/MovieCard';
+import { MovieView } from '../MovieView/MovieView';
+import { LoginView } from '../LoginView/LoginView';
+import { SignupView } from '../SignupView/SignupView';
 
 
 export const MainView = () => {

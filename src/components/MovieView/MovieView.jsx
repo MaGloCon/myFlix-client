@@ -7,7 +7,7 @@ import { Image } from "react-bootstrap";
 import { BsArrowLeftCircle } from "react-icons/bs";
 
 
-import './movie-view.scss';
+import './MovieView.scss';
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();

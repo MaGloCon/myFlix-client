@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 import { BsPlusCircle } from "react-icons/bs";
 
-import './movie-card.scss';
+import './MovieCard.scss';
 
 export const MovieCard = ({ movie }) => {
   const [isHovered, setIsHovered] = useState(false);

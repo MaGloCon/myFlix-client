@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 
 
-import './login-view.scss';
+import './LoginView.scss';
 import logo from  '../../assets/logo.svg';
 
 export const LoginView = ({ onLoggedIn }) => {
