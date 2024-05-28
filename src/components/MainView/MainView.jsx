@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
-
+import {NavigationBar} from '../NavigationBar/NavigationBar';
 import { MovieCard } from '../MovieCard/MovieCard';
 import { MovieView } from '../MovieView/MovieView';
 import { LoginView } from '../LoginView/LoginView';
@@ -57,7 +57,7 @@ export const MainView = () => {
   };
 
   fetchMovies();
-}, [token]);
+}, [token, user]);
   
   if (isLoading) {
     return (
@@ -69,6 +69,14 @@ export const MainView = () => {
 
   return (
     <BrowserRouter>
+      <NavigationBar
+        user={user}
+        onLoggedOut={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.clear();
+        }}
+      />
       <Routes>
         <Route 
           path="/signup" 
@@ -126,18 +134,24 @@ export const MainView = () => {
             <>
               {!user ? (
                 <Navigate to="/login" replace />
+                ) : isLoading ? (
+                  <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                    <Spinner animation="grow" />
+                  </Container>
               ) : movies.length === 0 ? (
                 <Col>The list is empty!</Col>
-              ) : ( 
-              <Row className="d-flex justify-content-center">
-                {movies.map((movie) => (
-                  <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
-                    <MovieCard  
-                      movie={movie} 
-                    />
-                  </Col>
-                ))}
-              </Row>
+              ) : (
+              <Container>
+                <Row className="d-flex justify-content-center">
+                  {movies.map((movie) => (
+                    <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
+                      <MovieCard  
+                        movie={movie} 
+                      />
+                    </Col>
+                  ))}
+                </Row>
+              </Container>
             )}
           </>
         }

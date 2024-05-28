@@ -1,7 +1,6 @@
 import{ useState } from "react";
-import {Form, Button, Image} from 'react-bootstrap';
+import {Form, Button, Card} from 'react-bootstrap';
 
-import './SignupView.scss';
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -40,9 +39,9 @@ export const SignupView = () => {
   };
 
   return (
-    <div className="shadow p-4 bg-white rounded">
-      <Image variant="top" src={logo} alt="Cinephile logo" className="logo d-block mx-auto mt-4"  />
-      <h1 className="fs-1 text-center mt-2">Create an Account</h1>
+    <Card className="mt-3">
+      <Card.Body>
+        <Card.Title className="fs-1 text-center mt-2">Create an Account</Card.Title>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-2" controlId="Username">
             <Form.Label className="fs-6">Username <span className="text-danger">*</span></Form.Label>
@@ -90,10 +89,7 @@ export const SignupView = () => {
 
           <Button variant="dark" type="submit" className="w-100 mt-3">Sign up</Button>
           </Form>
-          <div className="d-flex justify-content-center align-items-center mt-4">
-            <p className="m-0">Already have an account?</p>
-            {/* <Button variant="link" onClick={onBackToLogin} className="text-dark fs-7">Login</Button> */}
-          </div>
-    </div>   
+      </Card.Body>
+    </Card>   
   );
 };

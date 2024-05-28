@@ -89,11 +89,6 @@ img.shadow-gradient:after {
   inset: 0;
 }
 
-.logo {
-  width: 100px;
-  height: 100px;
-}
-
 :root, [data-bs-theme="light"] {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

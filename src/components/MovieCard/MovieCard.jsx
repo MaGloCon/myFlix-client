@@ -36,6 +36,7 @@ export const MovieCard = ({ movie }) => {
                   className="fav-button" size={35}
                 />
                 <Button 
+                  variant="dark"
                   className="more-dummy-button">
                   More
                 </Button> 

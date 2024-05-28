@@ -2,10 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 
-
-import './LoginView.scss';
-import logo from  '../../assets/logo.svg';
-
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -42,9 +38,8 @@ export const LoginView = ({ onLoggedIn }) => {
     };
     
   return (
-    <Card className="car-min-width justify-column-center align-item-center shadow">
-      <Card.Img variant="top" src={logo} alt="Cinephile logo" className="logo w-25 d-block mx-auto mt-4"  />
-      <Card.Title className="fs-1 text-center mt-2">Welcome Back</Card.Title>
+    <Card className="justify-column-center mt-3 align-item-center shadow">
+      <Card.Title className="fs-1 text-center mt-4">Welcome Back</Card.Title>
       <Card.Body className="mt-1">
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-2" controlId="Username">
@@ -71,10 +66,6 @@ export const LoginView = ({ onLoggedIn }) => {
           </Form.Group>
           <Button variant="dark" type="submit" className="w-100 mt-3">Log in</Button>
         </Form>
-        <div className="d-flex align-items-center justify-content-center mt-4">
-          <p className="m-0">Don't have an account?</p>
-          <Button variant="link" className="text-dark fs-7">Sign Up</Button>
-        </div>
       </Card.Body>
     </Card>
   );
