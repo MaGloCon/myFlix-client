@@ -2,18 +2,27 @@ import { useState} from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
-import { useMovies } from '../../hooks/useMovies';
-
 import { MovieCard } from '../MovieCard/MovieCard';
 import { MovieView } from '../MovieView/MovieView';
 import { LoginView } from '../LoginView/LoginView';
 import { SignupView } from '../SignupView/SignupView';
-// import { ProfileView } from '../ProfileView/ProfileView';
+import { ProfileView } from '../ProfileView/ProfileView';
 import { NavigationBar } from '../NavigationBar/NavigationBar';
 
+import { useMovies } from '../../hooks/useMovies';
+
 export const MainView = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user") || 'null'));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
   const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const onUserUpdate = (updatedUser) => {
+    setUser(updatedUser);
+  };
+
+  const onAccountDelete = () => {
+  setUser(null);
+  setToken(null);
+};
 
   const { movies, isLoading } = useMovies(token);
 
@@ -60,7 +69,7 @@ export const MainView = () => {
               ) : (
                 <Container>
                   <LoginView 
-                    onLoggedIn={(user) => {
+                    onLoggedIn={(user, token) => {
                       setUser(user);
                       setToken(token);
                     }} 
@@ -111,7 +120,7 @@ export const MainView = () => {
             </>
           }
         />
-        {/* <Route
+        <Route
           path="/profile"
           element={
             <>
@@ -120,15 +129,17 @@ export const MainView = () => {
               ) : (
                 <Col md={8}>
                   <ProfileView
-                    localUser={user}
+                    user={user}
                     movies={movies}
                     token={token}
+                    onUserUpdate={onUserUpdate}
+                    onAccountDelete={onAccountDelete}
                   />
                 </Col>
               )}
             </>
           }
-      /> */}
+      />
       </Routes>
     </BrowserRouter>
   );

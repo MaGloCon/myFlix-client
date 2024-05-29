@@ -1,5 +1,6 @@
 // hooks/useMovies.js
 import { useState, useEffect } from 'react';
+
 import { API_URL } from '../config';
 
 export const useMovies = (token) => {
@@ -16,6 +17,7 @@ export const useMovies = (token) => {
         const response = await fetch(`${API_URL}/movies`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log(response);
 
         const data = await response.json();
 
@@ -46,7 +48,7 @@ export const useMovies = (token) => {
     };
 
     fetchMovies();
-  }, [token]);
+  }, [ token]);
 
   return { movies, isLoading };
 };

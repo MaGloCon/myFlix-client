@@ -8,7 +8,7 @@ export const LoginView = ({ onLoggedIn }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); 
-    const data = {
+    const loginData = {
       Username: username,
       Password: password
     };
@@ -19,7 +19,7 @@ export const LoginView = ({ onLoggedIn }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(loginData)
       });
 
       const responseData = await response.json();
