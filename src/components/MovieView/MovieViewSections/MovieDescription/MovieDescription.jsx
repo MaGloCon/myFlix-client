@@ -10,9 +10,8 @@ export const MovieDescription = ({ movie }) => (
 </>
 );
 
-MovieDescription.propTypes = { 
+MovieDescription.propTypes = {
   movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
 };

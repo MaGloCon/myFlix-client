@@ -16,16 +16,15 @@ export const MovieDirector = ({ movie }) => (
 );
 
 MovieDirector.propTypes = {
-  id: PropTypes.string.isRequired,
   movie: PropTypes.shape({
     director: PropTypes.arrayOf(
       PropTypes.shape({
+        id: PropTypes.string,
         name: PropTypes.string,
-        Bio: PropTypes.string,
+        bio: PropTypes.string,
         birth: PropTypes.string,
         death: PropTypes.string,
       })
     ).isRequired,
   }).isRequired,
 };
-
