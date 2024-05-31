@@ -1,4 +1,5 @@
-import { useState} from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
@@ -9,22 +10,57 @@ import { SignupView } from '../SignupView/SignupView';
 import { ProfileView } from '../ProfileView/ProfileView';
 import { NavigationBar } from '../NavigationBar/NavigationBar';
 
-import { useMovies } from '../../hooks/useMovies';
+import { API_URL } from '../../config';
 
 export const MainView = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const onUserUpdate = (updatedUser) => {
-    setUser(updatedUser);
-  };
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onAccountDelete = () => {
-  setUser(null);
-  setToken(null);
-};
+  useEffect(() => {
+    const fetchMovies = async () => {
+      if (!token) return;
 
-  const { movies, isLoading } = useMovies(token);
+      setIsLoading(true);
+
+      try {
+        const response = await axios.get(`${API_URL}/movies`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data) {
+          const moviefromApi = response.data.map((movie) => ({
+            id: movie._id,
+            image: movie.ImagePath,
+            title: movie.Title,
+            titleOriginal: movie.TitleOrigin,
+            description: movie.Description,
+            year: movie.Year,
+            countries: movie.Countries,
+            genre: movie.Genre,
+            director: movie.Director,
+            actors: movie.Actors,
+            featured: movie.Featured,
+          }));
+
+          setMovies(moviefromApi);
+        } else {
+          console.error('Movie data is not available');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, [token]);
+
+  
+
 
   if (isLoading) {
     return (
@@ -89,7 +125,11 @@ export const MainView = () => {
               ) : movies.length === 0 ? ( 
                 <Container className="d-flex justify-content-center">The list is empty!</Container>
               ) : (
-                <MovieView movies={movies}/>
+                <MovieView 
+                  movies={movies}
+                  token={token}
+                  user={user}
+                />
               )}
             </>
           }
@@ -110,7 +150,8 @@ export const MainView = () => {
                     <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
                       <MovieCard  
                         movie={movie}
-                        // isFavorite={user.favoriteMovies.includes(movie.id)}
+                        token={token}
+                        user={user}
                       />
                     </Col>
                   ))}
@@ -132,8 +173,6 @@ export const MainView = () => {
                     user={user}
                     movies={movies}
                     token={token}
-                    onUserUpdate={onUserUpdate}
-                    onAccountDelete={onAccountDelete}
                   />
                 </Col>
               )}

@@ -9,7 +9,7 @@ import { MovieHero } from './MovieViewSections/MovieHero/MovieHero';
 import { MovieDescription } from './MovieViewSections/MovieDescription/MovieDescription';
 import { MovieDirector } from './MovieViewSections/MovieDirector/MovieDirector';
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ movies, user, token }) => {
   const { movieId } = useParams();
   const movie = movies.find(movie => movie.id === movieId);
   const navigate = useNavigate();
@@ -26,7 +26,11 @@ export const MovieView = ({ movies }) => {
 
   return (
     <>
-      <MovieHero movie={movie} />
+      <MovieHero 
+        movie={movie}
+        user={user}
+        token={token}
+        />
       <div style={{ boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)' }}>
         <Container>
           <Col sm={12} md={8} className="pt-5">

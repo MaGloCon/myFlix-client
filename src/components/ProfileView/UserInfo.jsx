@@ -1,5 +1,5 @@
-export const UserInfo = ({email, name, birthday}) => {
-  const formattedBirthday = birthday ? new Date(birthday).toLocaleDateString('en-US', {
+export const UserInfo = ({user}) => {
+  const formattedBirthday = user.Birthday ? new Date(user.Birthday).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric'
@@ -7,8 +7,8 @@ export const UserInfo = ({email, name, birthday}) => {
 
   return (
     <>
-      <p>Username: {name} </p>
-      <p>Email: {email} </p>
+      <p>Username: {user.Username} </p>
+      <p>Email: {user.Email} </p>
       <p>Birthday: {formattedBirthday}</p>
     </>
   )

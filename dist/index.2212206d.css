@@ -1,59 +1,7 @@
-.movie-card-wrapper {
-  z-index: 1;
-  padding: 1rem;
-  transition: transform .3s ease-in-out .1s;
-  position: relative;
-}
-
-.movie-card-wrapper.hovered, .movie-card-wrapper:hover {
-  z-index: 1000;
-  transform: scale(1.1);
-}
-
-.movie-card-wrapper.hovered .movie-card, .movie-card-wrapper:hover .movie-card {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
 .movie-card-wrapper .movie-card {
   border: 0;
   padding: 0;
   overflow: hidden;
-}
-
-.movie-card-wrapper .movie-card .movie-image {
-  object-fit: cover;
-  filter: brightness(120%) saturate(110%);
-  width: 370px;
-  height: 190px;
-}
-
-.movie-card-wrapper .movie-card .shadow-gradient {
-  content: "";
-  z-index: 0;
-  background: linear-gradient(to top, #00000080, #0000);
-  position: absolute;
-  inset: 0;
-}
-
-.movie-card-wrapper .movie-card .movie-title {
-  color: #fff;
-  margin-bottom: 0;
-  padding: 0;
-}
-
-.movie-card-wrapper .movie-card .card-text {
-  font-size: .8rem;
-}
-
-.movie-card-wrapper .movie-card .movie-body {
-  color: #fff;
-  text-align: left;
-  z-index: 2;
-  background: none;
-  transition: all .3s ease-in-out .1s;
-  position: absolute;
-  bottom: 0;
 }
 
 .movie-card-wrapper .hovered-movie-card {
@@ -62,17 +10,30 @@
   transition: visibility 0s .3s, opacity .3s ease-in-out;
 }
 
-.movie-card-wrapper .hovered-movie-card.show {
-  visibility: visible;
+.favorite-button1 {
+  height: "35";
   opacity: 1;
 }
 
-.movie-card-wrapper .hovered-movie-card .hovered-body {
-  z-index: 1000;
-  border-radius: 0 0 5px 5px;
-  width: 100%;
-  transition: transform .3s ease-in-out;
-  position: absolute;
+.favorite-button1:hover {
+  opacity: .8;
+  transition: transform .3s;
+  transform: scale(1.1);
+}
+
+.icon-wrapper2 {
+  padding: 6px 12px;
+}
+
+.icon-wrapper2 .favorite-button2 {
+  fill: #fff;
+  opacity: .8;
+  height: 40px;
+}
+
+.icon-wrapper2 .favorite-button2:hover {
+  fill: #fff;
+  opacity: 1;
 }
 
 img {
@@ -113,24 +74,17 @@ img.shadow-gradient:after {
   display: flex;
 }
 
-.movie-details-wrapper .back-button {
+.movie-details-wrapper .back-button-wrapper {
+  padding: 6px 12px;
+}
+
+.movie-details-wrapper .back-button-wrapper .back-button {
   fill: #fff;
   opacity: .7;
   height: 40px;
 }
 
-.movie-details-wrapper .back-button:hover {
-  fill: #fff;
-  opacity: 1;
-}
-
-.movie-details-wrapper .fav-button {
-  fill: #fff;
-  opacity: .8;
-  height: 40px;
-}
-
-.movie-details-wrapper .fav-button:hover {
+.movie-details-wrapper .back-button-wrapper .back-button:hover {
   fill: #fff;
   opacity: 1;
 }
@@ -143,6 +97,86 @@ img.shadow-gradient:after {
   .hide-on-small {
     display: none;
   }
+}
+
+.movie-card-wrapper {
+  z-index: 1;
+  padding: 1rem;
+  transition: transform .3s ease-in-out .1s;
+  position: relative;
+}
+
+.movie-card-wrapper.hovered, .movie-card-wrapper:hover {
+  z-index: 1000;
+  transform: scale(1.1);
+}
+
+.movie-card-wrapper.hovered .movie-card, .movie-card-wrapper:hover .movie-card {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.movie-card-wrapper .movie-card {
+  border: 0;
+  max-width: 370px;
+  max-height: 190px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.movie-card-wrapper .movie-card .movie-image {
+  object-fit: cover;
+  filter: brightness(120%) saturate(110%);
+  width: 100%;
+  height: 100%;
+}
+
+.movie-card-wrapper .movie-card .shadow-gradient {
+  content: "";
+  z-index: 0;
+  background: linear-gradient(to top, #00000080, #0000);
+  position: absolute;
+  inset: 0;
+}
+
+.movie-card-wrapper .movie-card .movie-title {
+  color: #fff;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.movie-card-wrapper .movie-card .card-text {
+  font-size: .8rem;
+}
+
+.movie-card-wrapper .movie-card .movie-body {
+  color: #fff;
+  text-align: left;
+  z-index: 2;
+  background: none;
+  transition: all .3s ease-in-out .1s;
+  position: absolute;
+  bottom: 0;
+}
+
+.movie-card-wrapper .hovered-movie-card {
+  visibility: hidden;
+  opacity: 0;
+  max-width: 370px;
+  transition: visibility 0s .3s, opacity .3s ease-in-out;
+}
+
+.movie-card-wrapper .hovered-movie-card.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.movie-card-wrapper .hovered-movie-card .hovered-body {
+  z-index: 1000;
+  border-radius: 0 0 5px 5px;
+  width: 100%;
+  transition: transform .3s ease-in-out;
+  position: absolute;
 }
 
 :root, [data-bs-theme="light"] {

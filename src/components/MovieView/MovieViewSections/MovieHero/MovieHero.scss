@@ -23,25 +23,18 @@ $white: #fff;
     padding: 2px;
   }
 
-  .back-button {
-    height: 40px;
-    fill: $white;
-    opacity: 0.7;
+  .back-button-wrapper {
+    padding: 6px 12px;
 
-    &:hover {
+    .back-button {
+      height: 40px;
       fill: $white;
-      opacity: 1;
-    }
-  }
+      opacity: 0.7;
 
-  .fav-button {
-    height: 40px;
-    fill: $white;
-    opacity: 0.8;
-
-    &:hover {
-      fill: $white;
-      opacity: 1;
+      &:hover {
+        fill: $white;
+        opacity: 1;
+      }
     }
   }
 }

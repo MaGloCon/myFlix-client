@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import './MovieHero.scss';
 
 import { BsArrowLeftCircle } from "react-icons/bs";
-import { BsPlusCircle } from "react-icons/bs";
+import { FavoriteButton2 } from '../../../FavoriteButtons/FavoriteButtons';
 import { BsChevronCompactDown } from "react-icons/bs";
 
-export const MovieHero = ({ movie }) => (
+export const MovieHero = ({ movie, user, token }) => (
   <div
     className="movie-image-background position-relative text-white vh-90" 
     style={{ 
@@ -25,17 +25,17 @@ export const MovieHero = ({ movie }) => (
         <div className="movie-details-container d-flex flex-column justify-content-between h-100">
           <div className="d-flex justify-content-between border-0 bg-transparent"> 
             <Link to="/">
-              <Button className=" border-0 bg-transparent">
+              <div className="back-button-wrapper">
                 <BsArrowLeftCircle 
                   className="back-button" 
                   size={40}/>
-              </Button>
+              </div>
             </Link>
-            <Button className=" border-0 bg-transparent">
-              <BsPlusCircle 
-                className="fav-button" 
-                size={40}/>
-            </Button>
+            <FavoriteButton2
+                user={user} 
+                token={token} 
+                movie={movie} 
+              />
           </div>
           <div className="p-3">
             <div className="mb-4">

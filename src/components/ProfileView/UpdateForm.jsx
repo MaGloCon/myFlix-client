@@ -12,9 +12,8 @@ export const UpdateForm = ({profileUpdateData, handleUpdate, handleSubmit}) => {
               name="username"
               type="text"
               minLength={4}
-              value={profileUpdateData.username}
+              value={profileUpdateData.Username}
               onChange={(e) => handleUpdate(e)}
-              required
               />
           </Form.Group>
           <Form.Group className='mb-2'>
@@ -24,10 +23,10 @@ export const UpdateForm = ({profileUpdateData, handleUpdate, handleSubmit}) => {
               <Form.Control
               name="password"
               type="password"
+              placeholder="........"
               minLength={8}
-              value={profileUpdateData.password}
+              // value={profileUpdateData.password}
               onChange={(e) => handleUpdate(e)}
-              required
               />
           </Form.Group >
           <Form.Group className='mb-2'>
@@ -35,9 +34,8 @@ export const UpdateForm = ({profileUpdateData, handleUpdate, handleSubmit}) => {
           <Form.Control
               name="email"
               type="email"
-              value={profileUpdateData.email}
+              value={profileUpdateData.Email}
               onChange={(e) => handleUpdate(e)}
-              required
           />
           </Form.Group>
           <Form.Group className='mb-4'>
@@ -45,9 +43,8 @@ export const UpdateForm = ({profileUpdateData, handleUpdate, handleSubmit}) => {
               <Form.Control
               name="birthday"
               type="date"
-              value={profileUpdateData.birthday ? profileUpdateData.birthday.slice(0, 10) : ""}
+              value={profileUpdateData.Birthday ? profileUpdateData.Birthday.slice(0, 10) : ""}
               onChange={(e) => handleUpdate(e)}
-              required
               />
           </Form.Group>
           <Button variant="primary" type="submit" >Submit Changes</Button>
