@@ -9,7 +9,7 @@ export const UserInfo = ({user}) => {
     <>
       <p>Username: {user.Username} </p>
       <p>Email: {user.Email} </p>
-      <p>Birthday: {formattedBirthday}</p>
+      <p>Birthday: {formattedBirthday} </p>
     </>
   )
 }

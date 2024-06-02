@@ -1,30 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Image } from 'react-bootstrap';
+import './MovieDirector.scss';
 
-export const MovieDirector = ({ movie }) => (
-<>
-    <h2 className="text-uppercase p-2">Director</h2>
-    <div className="d-flex justify-content-center align-items-start">
-      <Image className="p-2" src="https://placehold.co/180x230"/>
-      <div className="ml-3 p-2">
-        <h3 className="director-name">{movie.director.map(d => d.Name).join(', ')}</h3>
-        <p className="director-bio">{movie.director.map(d => d.Bio).join(', ')}</p>
+export const MovieDirector = ({ director }) => (
+    <div className="director-section d-flex justify-content-center align-items-start p- mb-3">
+      <Image className="director-portrait p-2" src="https://placehold.co/200x230"/>
+      <div className="director-text ml-3 p-2">
+        <h3 className="director-name">{director.Name}</h3>
+        <div className="director-bio">
+        <p className="bio-content">{director.Bio}</p>
+        </div>
       </div>
     </div>
-</>
 );
 
 MovieDirector.propTypes = {
-  movie: PropTypes.shape({
-    director: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        bio: PropTypes.string,
-        birth: PropTypes.string,
-        death: PropTypes.string,
-      })
-    ).isRequired,
+  director: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    bio: PropTypes.string,
+    birth: PropTypes.string,
+    death: PropTypes.string,
   }).isRequired,
 };

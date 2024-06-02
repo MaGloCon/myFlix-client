@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import { API_URL } from '../../../utils/constants';
 import { useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 
@@ -8,27 +9,29 @@ export const LoginView = ({ onLoggedIn }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); 
+
     const loginData = {
       Username: username,
       Password: password
     };
 
     try {
-      const response = await fetch('https://cinephile-dc1b75a885d0.herokuapp.com/login', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData)
-      });
+      const response = await axios.post('https://cinephile-dc1b75a885d0.herokuapp.com/login', loginData);
 
       const responseData = await response.json();
-      console.log("Login response: ", responseData);
-     
         if (responseData.user) {
-          localStorage.setItem("user", JSON.stringify(responseData.user));
+          const user ={
+            ...responseData.user,
+            id: responseData.user._id,
+            username: responseData.user.Username,
+            password: responseData.user.Password,
+            email: responseData.user.Email,
+            birthday: new Date(responseData.user.Birthday),
+            favoriteMovies: responseData.user.FavoriteMovies,
+          };
+          localStorage.setItem("user", JSON.stringify(user));
           localStorage.setItem("token", responseData.token);
-          onLoggedIn(responseData.user, responseData.token);
+          onLoggedIn(user, responseData.token);
         } else {
           alert("No such user");
         }
@@ -42,6 +45,7 @@ export const LoginView = ({ onLoggedIn }) => {
       <Card.Title className="fs-1 text-center mt-4">Welcome Back</Card.Title>
       <Card.Body className="mt-1">
         <Form onSubmit={handleSubmit}>
+
           <Form.Group className="mb-2" controlId="Username">
             <Form.Label className="fs-6">Username <span className="text-danger">*</span></Form.Label>
             <Form.Control
@@ -53,6 +57,7 @@ export const LoginView = ({ onLoggedIn }) => {
               required
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="Password">
             <Form.Label className="fs-6">Password <span className="text-danger">*</span></Form.Label>
               <Form.Control
@@ -64,6 +69,7 @@ export const LoginView = ({ onLoggedIn }) => {
                 required
               />
           </Form.Group>
+
           <Button variant="dark" type="submit" className="w-100 mt-3">Log in</Button>
         </Form>
       </Card.Body>

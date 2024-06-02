@@ -1,12 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { userPropType, tokenPropType, moviePropType } from '../../../utils/propTypes'
 import { Link } from 'react-router-dom';
 import { FavoriteButton1 } from '../FavoriteButtons/FavoriteButtons';
 import { Button, Card } from 'react-bootstrap';
 
 import './MovieCard.scss';
 
-export const MovieCard = ({ movie, user, token,}) => {
+export const MovieCard = ({ movie, user, token, favoriteMovies, setFavoriteMovies}) => {
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
   const handleMouseLeave = useCallback(() => setIsHovered(false), []);
@@ -36,6 +37,8 @@ export const MovieCard = ({ movie, user, token,}) => {
                 user={user} 
                 token={token} 
                 movie={movie} 
+                favoriteMovies={favoriteMovies}
+                setFavoriteMovies={setFavoriteMovies}
               />
               <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
                 <Button 
@@ -53,31 +56,10 @@ export const MovieCard = ({ movie, user, token,}) => {
   );
 };
 
-MovieCard.propTypes = { 
-  movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    titleOriginal: PropTypes.arrayOf(PropTypes.string),
-    image: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    countries: PropTypes.arrayOf(PropTypes.string).isRequired,
-    genre: PropTypes.arrayOf(
-      PropTypes.shape({
-        navigatorame: PropTypes.string,
-        description: PropTypes.string,
-      })
-    ).isRequired,
-    director: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        bio: PropTypes.string,
-        birth: PropTypes.string,
-        death: PropTypes.string,
-      })
-    ).isRequired,
-    actors: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+MovieCard.propTypes = {
+  movie: moviePropType,
+  user: userPropType,
+  token: tokenPropType,
+  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setFavoriteMovies: PropTypes.func.isRequired,
 };
-

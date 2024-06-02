@@ -1,15 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
+import { moviePropType, userPropType, tokenPropType } from "../../../utils/propTypes";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { Container, Col } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 
 import './MovieView.scss';
 import { MovieHero } from './MovieViewSections/MovieHero/MovieHero';
 import { MovieDescription } from './MovieViewSections/MovieDescription/MovieDescription';
 import { MovieDirector } from './MovieViewSections/MovieDirector/MovieDirector';
 
-export const MovieView = ({ movies, user, token }) => {
+export const MovieView = ({ movies, user, token, favoriteMovies, setFavoriteMovies }) => {
   const { movieId } = useParams();
   const movie = movies.find(movie => movie.id === movieId);
   const navigate = useNavigate();
@@ -25,50 +26,41 @@ export const MovieView = ({ movies, user, token }) => {
   }, [movieId]);
 
   return (
-    <>
+    <div className="movie-view mb-5">
       <MovieHero 
         movie={movie}
         user={user}
         token={token}
+        favoriteMovies={favoriteMovies}
+        setFavoriteMovies={setFavoriteMovies}
         />
-      <div style={{ boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)' }}>
-        <Container>
-          <Col sm={12} md={8} className="pt-5">
-            <MovieDescription movie={movie} />
-            <MovieDirector movie={movie} />
-          </Col>
-        </Container>
+      <div>
+        <Container className="mt-5">
+           <Row className="justify-content-center">
+            <Col sm={12} md={12} lg={10}>
+                <div className="d-lg-none mb-5">
+                <MovieDescription movie={movie} />
+                </div>
+                <div>
+                  <h2 className="text-uppercase p-2">Director</h2>
+                  <div>
+                    {movie.director.map((director, index) => (
+                      <MovieDirector key={index} director={director} />
+                    ))}
+                  </div>
+                </div>
+            </Col>
+          </Row>
+       </Container>
       </div>
-    </>
+    </div>
   );
 };     
 
 MovieView.propTypes = { 
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    titleOriginal: PropTypes.arrayOf(PropTypes.string),
-    image: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    countries: PropTypes.arrayOf(PropTypes.string).isRequired,
-    genre: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        description: PropTypes.string,
-      })
-    ).isRequired,
-    director: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        bio: PropTypes.string,
-        birth: PropTypes.string,
-        death: PropTypes.string,
-      })
-    ).isRequired,
-    actors: PropTypes.arrayOf(PropTypes.string),
-    })
-  ).isRequired,
+  movies: PropTypes.arrayOf(moviePropType).isRequired,
+  user: userPropType,
+  token: tokenPropType,
+  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setFavoriteMovies: PropTypes.func.isRequired,
 };

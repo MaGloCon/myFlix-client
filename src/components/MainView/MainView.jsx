@@ -1,23 +1,32 @@
 import axios from 'axios';
+import { API_URL } from '../../../utils/constants';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
-import { MovieCard } from '../MovieCard/MovieCard';
-import { MovieView } from '../MovieView/MovieView';
+import { NavigationBar } from '../NavigationBar/NavigationBar';
 import { LoginView } from '../LoginView/LoginView';
 import { SignupView } from '../SignupView/SignupView';
+import { MovieCard } from '../MovieCard/MovieCard';
+import { MovieView } from '../MovieView/MovieView';
 import { ProfileView } from '../ProfileView/ProfileView';
-import { NavigationBar } from '../NavigationBar/NavigationBar';
-
-import { API_URL } from '../../config';
 
 export const MainView = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
+  const [user, setUser] = useState(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    return storedUser && 'id' in storedUser ? storedUser : null;
+  });
   const [token, setToken] = useState(localStorage.getItem("token"));
-
   const [movies, setMovies] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState(user ? user.FavoriteMovies : []);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    setFavoriteMovies(updatedUser.FavoriteMovies);
+  };
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -58,9 +67,6 @@ export const MainView = () => {
 
     fetchMovies();
   }, [token]);
-
-  
-
 
   if (isLoading) {
     return (
@@ -116,6 +122,27 @@ export const MainView = () => {
           }
         />
 
+        <Route
+          path="/profile"
+          element={
+            <>
+              {!user ? (
+                <Navigate to="/login" replace />
+              ) : (
+                <Container>
+                  <ProfileView
+                    user={user}
+                    movies={movies}
+                    token={token}
+                    favoriteMovies={favoriteMovies}
+                    updateUser={updateUser}
+                  />
+                </Container>
+              )}
+            </>
+          }
+        />
+
         <Route 
           path="/movies/:movieId"
           element={
@@ -129,6 +156,8 @@ export const MainView = () => {
                   movies={movies}
                   token={token}
                   user={user}
+                  favoriteMovies={favoriteMovies}
+                  setFavoriteMovies={setFavoriteMovies}
                 />
               )}
             </>
@@ -152,6 +181,8 @@ export const MainView = () => {
                         movie={movie}
                         token={token}
                         user={user}
+                        favoriteMovies={favoriteMovies}
+                        setFavoriteMovies={setFavoriteMovies}
                       />
                     </Col>
                   ))}
@@ -161,24 +192,6 @@ export const MainView = () => {
             </>
           }
         />
-        <Route
-          path="/profile"
-          element={
-            <>
-              {!user ? (
-                <Navigate to="/login" replace />
-              ) : (
-                <Col md={8}>
-                  <ProfileView
-                    user={user}
-                    movies={movies}
-                    token={token}
-                  />
-                </Col>
-              )}
-            </>
-          }
-      />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../config';
+import { API_URL } from '../../../utils/constants';
 import { BsXCircle } from 'react-icons/bs'; 
 
 export const useFavoriteMovies = (token) => {

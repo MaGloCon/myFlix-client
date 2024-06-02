@@ -1,15 +1,15 @@
 import React from 'react';
-
-import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './MovieHero.scss';
+import PropTypes from "prop-types";
+import { moviePropType, userPropType, tokenPropType } from "../../../../../utils/propTypes";
 
+import './MovieHero.scss';
+import { Button } from 'react-bootstrap';
 import { BsArrowLeftCircle } from "react-icons/bs";
 import { FavoriteButton2 } from '../../../FavoriteButtons/FavoriteButtons';
 import { BsChevronCompactDown } from "react-icons/bs";
 
-export const MovieHero = ({ movie, user, token }) => (
+export const MovieHero = ({ movie, user, token, favoriteMovies, setFavoriteMovies}) => (
   <div
     className="movie-image-background position-relative text-white vh-90" 
     style={{ 
@@ -20,7 +20,7 @@ export const MovieHero = ({ movie, user, token }) => (
       width: '100vw', 
     }}
   >
-    <div className="movie-details-wrapper w-100 h-100">
+    <div className="movie-hero-wrapper w-100 h-100">
       <div className="shadow-gradient">
         <div className="movie-details-container d-flex flex-column justify-content-between h-100">
           <div className="d-flex justify-content-between border-0 bg-transparent"> 
@@ -34,15 +34,17 @@ export const MovieHero = ({ movie, user, token }) => (
             <FavoriteButton2
                 user={user} 
                 token={token} 
-                movie={movie} 
+                movie={movie}
+                favoriteMovies={favoriteMovies}
+                setFavoriteMovies={setFavoriteMovies}
               />
           </div>
           <div className="p-3">
             <div className="mb-4">
-              <h1 className="title text-uppercase d-block text-shadow">{movie.title}</h1>
+              <h2 className="title text-uppercase d-block text-shadow">{movie.title}</h2>
               <p className="title-original text-shadow">{movie.titleOriginal.join(' | ')}</p>
             </div>
-            <div className="Details d-flex flex-wrap clearfix px-2 ">
+            <div className="movie-details d-flex flex-wrap clearfix px-2 ">
               <div className="left-details mb-2 col-lg-6 col-md-12">
                 <div className="director-details text-shadow"> 
                   <span>Directed by </span>
@@ -55,7 +57,7 @@ export const MovieHero = ({ movie, user, token }) => (
                 <div className="description-wrapper text-shadow ">
                   <div className="mt-2">
                     <h4 className="text-uppercase">Description</h4>
-                    <p>{movie.description}</p>
+                    <p className="description-content">{movie.description}</p>
                   </div>
                 </div>
               </div>
@@ -71,28 +73,9 @@ export const MovieHero = ({ movie, user, token }) => (
 );
 
 MovieHero.propTypes = {
-  movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    titleOriginal: PropTypes.arrayOf(PropTypes.string),
-    image: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    countries: PropTypes.arrayOf(PropTypes.string).isRequired,
-    genre: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        description: PropTypes.string,
-      })
-    ).isRequired,
-    director: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        bio: PropTypes.string,
-        birth: PropTypes.string,
-        death: PropTypes.string,
-      })
-    ).isRequired,
-    actors: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+  movie: moviePropType,
+  user: userPropType,
+  token: tokenPropType,
+  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setFavoriteMovies: PropTypes.func.isRequired,
 };
