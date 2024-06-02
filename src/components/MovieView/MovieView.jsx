@@ -10,7 +10,7 @@ import { MovieHero } from './MovieViewSections/MovieHero/MovieHero';
 import { MovieDescription } from './MovieViewSections/MovieDescription/MovieDescription';
 import { MovieDirector } from './MovieViewSections/MovieDirector/MovieDirector';
 
-export const MovieView = ({ movies, user, token, favoriteMovies, setFavoriteMovies }) => {
+export const MovieView = ({ movies, user, token, setUser }) => {
   const { movieId } = useParams();
   const movie = movies.find(movie => movie.id === movieId);
   const navigate = useNavigate();
@@ -31,8 +31,7 @@ export const MovieView = ({ movies, user, token, favoriteMovies, setFavoriteMovi
         movie={movie}
         user={user}
         token={token}
-        favoriteMovies={favoriteMovies}
-        setFavoriteMovies={setFavoriteMovies}
+        setUser={setUser}
         />
       <div>
         <Container className="mt-5">
@@ -61,6 +60,5 @@ MovieView.propTypes = {
   movies: PropTypes.arrayOf(moviePropType).isRequired,
   user: userPropType,
   token: tokenPropType,
-  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setFavoriteMovies: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };

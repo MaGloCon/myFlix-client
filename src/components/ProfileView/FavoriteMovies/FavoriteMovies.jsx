@@ -55,28 +55,8 @@ export const FavoriteMovies = ({ movie, user, token }) => {
 };
 
 FavoriteMovies.propTypes = { 
-  movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    countries: PropTypes.arrayOf(PropTypes.string).isRequired,
-    genre: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        description: PropTypes.string,
-      })
-    ).isRequired,
-    director: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        bio: PropTypes.string,
-        birth: PropTypes.string,
-        death: PropTypes.string,
-      })
-    ).isRequired,
-    actors: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+  movie: moviePropType,
+  user: userPropType,
+  token: tokenPropType,
+  setUser: PropTypes.func.isRequired,
 };

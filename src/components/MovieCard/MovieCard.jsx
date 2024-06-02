@@ -7,7 +7,7 @@ import { Button, Card } from 'react-bootstrap';
 
 import './MovieCard.scss';
 
-export const MovieCard = ({ movie, user, token, favoriteMovies, setFavoriteMovies}) => {
+export const MovieCard = ({ movie, user, token, setUser }) => {
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
   const handleMouseLeave = useCallback(() => setIsHovered(false), []);
@@ -19,14 +19,15 @@ export const MovieCard = ({ movie, user, token, favoriteMovies, setFavoriteMovie
       onMouseLeave={handleMouseLeave}
     >
       <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
-      <Card className="movie-card shadow">
-        <Card.Img className="movie-image" variant="link" src={movie.image} />
-        <div className="shadow-gradient"></div>
-        <Card.Body className="movie-body bg-transparent text-left text-uppercase">
-          <Card.Title className="movie-title ">{movie.title}</Card.Title> 
-          <Card.Text className="card-text">{movie.director && movie.director.length > 0 ? `${movie.director[0].Name}, ${movie.year}` : movie.year}</Card.Text>
-        </Card.Body>
-      </Card>
+        <Card className="movie-card shadow">
+          <Card.Img className="movie-image" variant="link" src={movie.image} />
+          <div className="shadow-gradient">
+          <Card.Body className="movie-body bg-transparent text-left text-uppercase">
+            <Card.Title className="movie-title ">{movie.title}</Card.Title> 
+            <Card.Text className="card-text">{movie.director && movie.director.length > 0 ? `${movie.director[0].Name}, ${movie.year}` : movie.year}</Card.Text>
+          </Card.Body>
+          </div>
+        </Card>
       </Link>
 
       {isHovered && (
@@ -37,8 +38,7 @@ export const MovieCard = ({ movie, user, token, favoriteMovies, setFavoriteMovie
                 user={user} 
                 token={token} 
                 movie={movie} 
-                favoriteMovies={favoriteMovies}
-                setFavoriteMovies={setFavoriteMovies}
+                setUser={setUser}
               />
               <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
                 <Button 
@@ -60,6 +60,5 @@ MovieCard.propTypes = {
   movie: moviePropType,
   user: userPropType,
   token: tokenPropType,
-  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setFavoriteMovies: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };

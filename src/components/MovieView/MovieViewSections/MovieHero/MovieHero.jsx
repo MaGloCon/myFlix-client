@@ -9,7 +9,7 @@ import { BsArrowLeftCircle } from "react-icons/bs";
 import { FavoriteButton2 } from '../../../FavoriteButtons/FavoriteButtons';
 import { BsChevronCompactDown } from "react-icons/bs";
 
-export const MovieHero = ({ movie, user, token, favoriteMovies, setFavoriteMovies}) => (
+export const MovieHero = ({ movie, user, token, setUser}) => (
   <div
     className="movie-image-background position-relative text-white vh-90" 
     style={{ 
@@ -35,8 +35,7 @@ export const MovieHero = ({ movie, user, token, favoriteMovies, setFavoriteMovie
                 user={user} 
                 token={token} 
                 movie={movie}
-                favoriteMovies={favoriteMovies}
-                setFavoriteMovies={setFavoriteMovies}
+                setUser={setUser}
               />
           </div>
           <div className="p-3">
@@ -76,6 +75,5 @@ MovieHero.propTypes = {
   movie: moviePropType,
   user: userPropType,
   token: tokenPropType,
-  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setFavoriteMovies: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };

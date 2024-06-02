@@ -19,13 +19,10 @@ export const MainView = () => {
   });
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [movies, setMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState(user ? user.FavoriteMovies : []);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const updateUser = (updatedUser) => {
     setUser(updatedUser);
-    setFavoriteMovies(updatedUser.FavoriteMovies);
   };
 
   useEffect(() => {
@@ -134,8 +131,7 @@ export const MainView = () => {
                     user={user}
                     movies={movies}
                     token={token}
-                    favoriteMovies={favoriteMovies}
-                    updateUser={updateUser}
+                     setUser={updateUser}
                   />
                 </Container>
               )}
@@ -156,8 +152,7 @@ export const MainView = () => {
                   movies={movies}
                   token={token}
                   user={user}
-                  favoriteMovies={favoriteMovies}
-                  setFavoriteMovies={setFavoriteMovies}
+                   setUser={updateUser}
                 />
               )}
             </>
@@ -181,8 +176,7 @@ export const MainView = () => {
                         movie={movie}
                         token={token}
                         user={user}
-                        favoriteMovies={favoriteMovies}
-                        setFavoriteMovies={setFavoriteMovies}
+                        setUser={updateUser}
                       />
                     </Col>
                   ))}

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 export const tokenPropType = PropTypes.string.isRequired;
 
 export const userPropType = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  birthday: PropTypes.instanceOf(Date).isRequired,
-  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  _id: PropTypes.string.isRequired,
+  Username: PropTypes.string.isRequired,
+  Password: PropTypes.string.isRequired,
+  Email: PropTypes.string.isRequired,
+  Birthday: PropTypes.string.isRequired,
+  FavoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
 }).isRequired;
 
 export const moviePropType = PropTypes.shape({

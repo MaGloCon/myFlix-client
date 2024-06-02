@@ -18,16 +18,16 @@ export const LoginView = ({ onLoggedIn }) => {
     try {
       const response = await axios.post('https://cinephile-dc1b75a885d0.herokuapp.com/login', loginData);
 
-      const responseData = await response.json();
+      const responseData = response.data; 
         if (responseData.user) {
           const user ={
             ...responseData.user,
-            id: responseData.user._id,
-            username: responseData.user.Username,
-            password: responseData.user.Password,
-            email: responseData.user.Email,
-            birthday: new Date(responseData.user.Birthday),
-            favoriteMovies: responseData.user.FavoriteMovies,
+            _id: responseData.user._id,
+            Username: responseData.user.Username,
+            Password: responseData.user.Password,
+            Email: responseData.user.Email,
+            Birthday: new Date(responseData.user.Birthday),
+            FavoriteMovies: responseData.user.FavoriteMovies,
           };
           localStorage.setItem("user", JSON.stringify(user));
           localStorage.setItem("token", responseData.token);

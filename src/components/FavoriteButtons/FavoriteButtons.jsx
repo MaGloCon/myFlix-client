@@ -57,8 +57,8 @@ export const useFavoriteMovies = (token) => {
 };
 
 //MovieCard
-export const FavoriteButton1 = ({user, token, movie, favoriteMovies, setFavoriteMovies}) => {
-  const [isFavorited, setIsFavorited] = useState(favoriteMovies.includes(movie.id));
+export const FavoriteButton1 = ({user, token, movie, setUser}) => {
+  const [isFavorited, setIsFavorited] = useState(user.FavoriteMovies.includes(movie.id));
   const { addFavoriteMovie, deleteFavoriteMovie } = useFavoriteMovies(token);
 
   const toggleFavorite = async () => {
@@ -68,7 +68,7 @@ export const FavoriteButton1 = ({user, token, movie, favoriteMovies, setFavorite
     } else {
       updatedUser = await addFavoriteMovie(user, movie.title);
     }
-    setFavoriteMovies(updatedUser.FavoriteMovies);
+    setUser(updatedUser);
     setIsFavorited(!isFavorited);
   };
 
@@ -88,8 +88,8 @@ export const FavoriteButton1 = ({user, token, movie, favoriteMovies, setFavorite
 };
 
 //MovieView/MovieHero
-export const FavoriteButton2 = ({user, token, movie, favoriteMovies, setFavoriteMovies}) => {
-  const [isFavorited, setIsFavorited] = useState(favoriteMovies.includes(movie.id));
+export const FavoriteButton2 = ({user, token, movie, setUser}) => {
+  const [isFavorited, setIsFavorited] = useState(user.FavoriteMovies.includes(movie.id));
   const { addFavoriteMovie, deleteFavoriteMovie } = useFavoriteMovies(token);
 
   const toggleFavorite = async () => {
@@ -99,7 +99,7 @@ export const FavoriteButton2 = ({user, token, movie, favoriteMovies, setFavorite
     } else {
       updatedUser = await addFavoriteMovie(user, movie.title);
     }
-    setFavoriteMovies(updatedUser.FavoriteMovies);
+    setUser(updatedUser);
     setIsFavorited(!isFavorited);
   };
 
@@ -127,14 +127,12 @@ FavoriteButton1.propTypes = {
   user: userPropType,
   token: tokenPropType,
   movie: moviePropType,
-  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setFavoriteMovies: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };
 
 FavoriteButton2.propTypes = {
   user: userPropType,
   token: tokenPropType,
   movie: moviePropType,
-  favoriteMovies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setFavoriteMovies: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };
