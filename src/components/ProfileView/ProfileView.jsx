@@ -1,17 +1,19 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Button, Card, Container, Row, Col, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
+import { FaCog } from 'react-icons/fa';
 
 import { API_URL } from '../../../utils/constants.js';
-import PropTypes from 'prop-types';
 import { moviePropType, userPropType, tokenPropType } from '../../../utils/propTypes'; 
 
-import { UpdateForm} from './UpdateForm';
-import { UserInfo } from './UserInfo.jsx';
+import { UserInfo } from './MyProfile/UserInfo.jsx';
+import { UpdateModal } from './MyProfile/UpdateDeleteUserModals';
+import { DeleteModal } from './MyProfile/UpdateDeleteUserModals';
 import {FavoriteMovies} from './FavoriteMovies/FavoriteMovies';
 
-export const ProfileView = ({ user, token, movies, favoriteMovies, updateUser }) => {
+export const ProfileView = ({ user, token, movies, setUser }) => {
   const [username, setUsername]= useState(user ? user.Username : '');
   const [email, setEmail] = useState(user ? user.Email : '');
   const [password, setPassword]= useState('');
@@ -19,6 +21,9 @@ export const ProfileView = ({ user, token, movies, favoriteMovies, updateUser })
 
   const favoriteMovieIds = user.FavoriteMovies;
   const filteredFavoriteMovies = movies.filter(movie => favoriteMovieIds.includes(movie.id));
+
+  const [modalShow, setModalShow] = useState(false);
+  const [deleteModalShow, setDeleteModalShow] = useState(false);
 
   const navigate = useNavigate();
     
@@ -47,8 +52,8 @@ export const ProfileView = ({ user, token, movies, favoriteMovies, updateUser })
         alert("Update successful");
         const updatedUser = response.data;
         if (updatedUser) {
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        updateUser(updatedUser);
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+          updateUser(updatedUser);
         }
       } else {
         alert("Update failed");
@@ -75,9 +80,9 @@ export const ProfileView = ({ user, token, movies, favoriteMovies, updateUser })
     }
   }
 
-  const handleDeleteAccount = async (id, token) => {
+  const handleDeleteAccount = async (user, token) => {
     try {
-      const response = await axios.delete(`${API_URL}/users/profile/delete/${id}`, {
+      const response = await axios.delete(`${API_URL}/users/profile/delete/${user._id}`, {
         headers: { 
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
@@ -87,7 +92,7 @@ export const ProfileView = ({ user, token, movies, favoriteMovies, updateUser })
       if (response.status === 200) {
         alert("Account deleted successfully.");
         localStorage.clear();
-        navigate('/');
+        navigate('/signup');
       } else {
         alert("Something went wrong.");
       }
@@ -97,39 +102,63 @@ export const ProfileView = ({ user, token, movies, favoriteMovies, updateUser })
   }
 
  return (
-    <Container className="justify-content-center">
-      <Card className="mb-5">
-        <Card.Title>My Profile</Card.Title>
-        <Card.Body>
-          <UserInfo user={user}/>
-        </Card.Body>
-      </Card>
-      <Row> 
-        {filteredFavoriteMovies.map((movie) => (
-          <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>
-            <FavoriteMovies 
-              movie={movie}
-              user={user}
-              token={user}
-              />
-          </Col>
-          ))}
-      </Row>
-      <Card>
-        <Card.Body>
-          <UpdateForm
-            profileUpdateData={profileUpdateData}
-            handleUpdate={handleUpdate}
-            handleSubmit={handleSubmit}
-          />
-          <Button onClick={() => handleDeleteAccount(username, token)}
-            className="button-delete mb-5" 
-            type="submit" variant="outline-secondary"
-          >
-            Delete account
-          </Button>
-        </Card.Body>
-      </Card>
-    </Container>
-  )
+    <>
+        <Container>
+          <Row className="mt-5 bg-light shadow-sm">
+            <h3 className='p-2 bg-dark text-white '>My Profile</h3>
+            <Container className="p-3">
+              <UserInfo user={user}/>
+              <DropdownButton variant="dark" className='border-1' id="setting-dropdown" title={<FaCog />}>
+                <Dropdown.Item onClick={() => setModalShow(true)}>Update Info</Dropdown.Item>
+                <Dropdown.Item onClick={() => setDeleteModalShow(true)}>Delete Account</Dropdown.Item>
+              </DropdownButton>
+                <UpdateModal
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                  profileUpdateData={profileUpdateData}
+                  handleUpdate={handleUpdate}
+                  handleSubmit={handleSubmit}
+                />
+                <DeleteModal
+                  show={deleteModalShow}
+                  onHide={() => setDeleteModalShow(false)}
+                  handleDeleteAccount={handleDeleteAccount}
+                  user={user}
+                  token={token}
+                />
+            </Container>
+          </Row>
+      
+        <div>
+          <h3 className="text-center mt-3 mb-3">Favorites Films</h3>
+          <Container>
+           <Row> 
+              {filteredFavoriteMovies.length > 0 ? (
+                filteredFavoriteMovies.map((movie) => (
+                  <Col xs={12} sm={12} md={6} xxl={4} key={movie.id} className='d-flex justify-content-center'>
+                    <FavoriteMovies 
+                      movie={movie}
+                      user={user}
+                      token={token}
+                      setUser={setUser}
+                    />
+                  </Col>
+                ))
+              ) : (
+                <p className="text-center">You haven't added any films to your favorites yet.</p>
+              )}
+            </Row>
+          </Container>
+        </div>
+        </Container>
+      </>
+    );
+}
+
+ProfileView.propTypes = {
+  user: userPropType,
+  token: tokenPropType,
+  movies: PropTypes.arrayOf(moviePropType).isRequired,
+  movie: moviePropType,
+  setUser: PropTypes.func.isRequired,
 };

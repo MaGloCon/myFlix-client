@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { API_URL } from '../../../utils/constants';
-
 import { useState } from 'react';
 import { PropTypes } from 'prop-types';
+import { BsPlusCircle, BsDashCircle } from 'react-icons/bs';
+
+import { API_URL } from '../../../utils/constants';
 import { tokenPropType, userPropType, moviePropType } from '../../../utils/propTypes';
 
 import './FavoriteButtons.scss';
-import { BsPlusCircle, BsDashCircle } from 'react-icons/bs';
 
 export const useFavoriteMovies = (token) => {
   const addFavoriteMovie = async (user, movieTitle) => {
@@ -57,7 +57,7 @@ export const useFavoriteMovies = (token) => {
 };
 
 //MovieCard
-export const FavoriteButton1 = ({user, token, movie, setUser}) => {
+export const ToggleFavoriteButton1 = ({user, token, movie, setUser}) => {
   const [isFavorited, setIsFavorited] = useState(user.FavoriteMovies.includes(movie.id));
   const { addFavoriteMovie, deleteFavoriteMovie } = useFavoriteMovies(token);
 
@@ -88,7 +88,7 @@ export const FavoriteButton1 = ({user, token, movie, setUser}) => {
 };
 
 //MovieView/MovieHero
-export const FavoriteButton2 = ({user, token, movie, setUser}) => {
+export const ToggleFavoriteButton2 = ({user, token, movie, setUser}) => {
   const [isFavorited, setIsFavorited] = useState(user.FavoriteMovies.includes(movie.id));
   const { addFavoriteMovie, deleteFavoriteMovie } = useFavoriteMovies(token);
 
@@ -123,14 +123,41 @@ export const FavoriteButton2 = ({user, token, movie, setUser}) => {
   );
 }
 
-FavoriteButton1.propTypes = {
+//ProfileView/FavoriteMovies
+export const DeleteFavoriteButton = ({user, token, movie, setUser}) => {
+  const { deleteFavoriteMovie } = useFavoriteMovies(token);
+
+  const removeFavorite = async () => {
+    console.log(user, token, movie, setUser);
+    const updatedUser = await deleteFavoriteMovie(user, movie.title);
+    setUser(updatedUser);
+  };
+
+  return (
+    <div onClick={removeFavorite}>
+      <BsDashCircle 
+        size={35} 
+        className="delete-button" 
+      />
+    </div>
+  );
+};
+
+ToggleFavoriteButton1.propTypes = {
   user: userPropType,
   token: tokenPropType,
   movie: moviePropType,
   setUser: PropTypes.func.isRequired,
 };
 
-FavoriteButton2.propTypes = {
+ToggleFavoriteButton2.propTypes = {
+  user: userPropType,
+  token: tokenPropType,
+  movie: moviePropType,
+  setUser: PropTypes.func.isRequired,
+};
+
+DeleteFavoriteButton.propTypes = {
   user: userPropType,
   token: tokenPropType,
   movie: moviePropType,

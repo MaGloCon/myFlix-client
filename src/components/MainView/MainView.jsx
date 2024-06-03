@@ -12,11 +12,10 @@ import { MovieCard } from '../MovieCard/MovieCard';
 import { MovieView } from '../MovieView/MovieView';
 import { ProfileView } from '../ProfileView/ProfileView';
 
+import './MainView.scss';
+
 export const MainView = () => {
-  const [user, setUser] = useState(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    return storedUser && 'id' in storedUser ? storedUser : null;
-  });
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +90,7 @@ export const MainView = () => {
               {user ? (
                 <Navigate to="/" />
               ) : (
-                <Container>
+                <Container fluid className="signup-background">
                   <SignupView/>
                 </Container>
               )}
@@ -106,7 +105,7 @@ export const MainView = () => {
               {user ? (
                 <Navigate to="/" />
               ) : (
-                <Container>
+                <Container fluid className="login-background">
                   <LoginView 
                     onLoggedIn={(user, token) => {
                       setUser(user);
@@ -126,14 +125,14 @@ export const MainView = () => {
               {!user ? (
                 <Navigate to="/login" replace />
               ) : (
-                <Container>
+                
                   <ProfileView
                     user={user}
                     movies={movies}
                     token={token}
-                     setUser={updateUser}
+                    setUser={updateUser}
                   />
-                </Container>
+              
               )}
             </>
           }
@@ -152,7 +151,7 @@ export const MainView = () => {
                   movies={movies}
                   token={token}
                   user={user}
-                   setUser={updateUser}
+                  setUser={updateUser}
                 />
               )}
             </>

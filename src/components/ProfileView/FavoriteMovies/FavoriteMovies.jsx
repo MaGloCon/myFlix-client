@@ -1,14 +1,14 @@
 import { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import {moviePropType, userPropType, tokenPropType} from '../../../../utils/propTypes';
 import { Link } from 'react-router-dom';
-
+import PropTypes from 'prop-types';
 import { Button, Card } from 'react-bootstrap';
-import { DeleteFavoriteButton } from '../../FavoriteButtons/DeleteFavoriteButton';
+
+import { moviePropType, userPropType, tokenPropType } from '../../../../utils/propTypes';
+import { DeleteFavoriteButton } from '../../FavoriteButtons/FavoriteButtons';
 
 import './FavoriteMovies.scss';
 
-export const FavoriteMovies = ({ movie, user, token }) => {
+export const FavoriteMovies = ({ movie, user, token, setUser }) => {
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);
   const handleMouseLeave = useCallback(() => setIsHovered(false), []);
@@ -37,7 +37,8 @@ export const FavoriteMovies = ({ movie, user, token }) => {
               <DeleteFavoriteButton
                 user={user} 
                 token={token} 
-                movie={movie} 
+                movie={movie}
+                setUser={setUser}
               />
               <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
                 <Button 

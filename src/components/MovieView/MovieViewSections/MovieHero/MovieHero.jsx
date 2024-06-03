@@ -6,7 +6,7 @@ import { moviePropType, userPropType, tokenPropType } from "../../../../../utils
 import './MovieHero.scss';
 import { Button } from 'react-bootstrap';
 import { BsArrowLeftCircle } from "react-icons/bs";
-import { FavoriteButton2 } from '../../../FavoriteButtons/FavoriteButtons';
+import { ToggleFavoriteButton2 } from '../../../FavoriteButtons/FavoriteButtons';
 import { BsChevronCompactDown } from "react-icons/bs";
 
 export const MovieHero = ({ movie, user, token, setUser}) => (
@@ -31,7 +31,7 @@ export const MovieHero = ({ movie, user, token, setUser}) => (
                   size={40}/>
               </div>
             </Link>
-            <FavoriteButton2
+            <ToggleFavoriteButton2
                 user={user} 
                 token={token} 
                 movie={movie}

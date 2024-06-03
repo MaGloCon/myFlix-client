@@ -16,6 +16,57 @@
   outline: none;
 }
 
+.heading-left {
+  font-size: 4rem;
+}
+
+@media (width <= 992px) {
+  .heading-left {
+    font-size: 4rem;
+  }
+}
+
+@media (width <= 768px) {
+  .heading-left {
+    font-size: 3rem;
+  }
+}
+
+@media (width <= 576px) {
+  .heading-left {
+    font-size: 2rem;
+  }
+}
+
+@media (width >= 993px) {
+  .left-wrapper {
+    padding: 6rem;
+  }
+}
+
+@media (width <= 992px) {
+  .left-wrapper {
+    padding: 5rem;
+  }
+}
+
+@media (width <= 768px) {
+  .left-wrapper {
+    padding: 4rem;
+  }
+}
+
+@media (width <= 576px) {
+  .left-wrapper {
+    padding: 5rem 1rem;
+  }
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+}
+
 .favorite-button1 {
   height: "35";
   opacity: 1;
@@ -52,12 +103,6 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s .3s, opacity .3s ease-in-out;
-}
-
-img {
-  z-index: 0;
-  width: 100%;
-  position: relative;
 }
 
 .movie-hero-wrapper {
@@ -154,6 +199,12 @@ img {
   }
 }
 
+img {
+  z-index: 0;
+  width: 100%;
+  position: relative;
+}
+
 .movie-card-wrapper {
   z-index: 1;
   padding: 1rem;
@@ -232,6 +283,11 @@ img {
   width: 100%;
   transition: transform .3s ease-in-out;
   position: absolute;
+}
+
+.signup-background, .login-background {
+  background-color: #181818;
+  height: 93vh;
 }
 
 :root, [data-bs-theme="light"] {

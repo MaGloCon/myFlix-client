@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { userPropType, tokenPropType, moviePropType } from '../../../utils/propTypes'
 import { Link } from 'react-router-dom';
-import { FavoriteButton1 } from '../FavoriteButtons/FavoriteButtons';
+import { ToggleFavoriteButton1 } from '../FavoriteButtons/FavoriteButtons';
 import { Button, Card } from 'react-bootstrap';
 
 import './MovieCard.scss';
@@ -34,7 +34,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
         <Card className={`hovered-movie-card top-0 ${isHovered ? 'show' : 'hide'}`}>
           <Card.Body className="hovered-body bg-white shadow pt-1">
             <div className="d-flex justify-content-between">
-              <FavoriteButton1
+              <ToggleFavoriteButton1
                 user={user} 
                 token={token} 
                 movie={movie} 

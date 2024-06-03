@@ -1,14 +1,14 @@
-import React from "react";
 import { useEffect } from "react";
-import PropTypes from "prop-types";
-import { moviePropType, userPropType, tokenPropType } from "../../../utils/propTypes";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import { Container, Col, Row } from "react-bootstrap";
 
-import './MovieView.scss';
+import { moviePropType, userPropType, tokenPropType } from "../../../utils/propTypes";
 import { MovieHero } from './MovieViewSections/MovieHero/MovieHero';
 import { MovieDescription } from './MovieViewSections/MovieDescription/MovieDescription';
 import { MovieDirector } from './MovieViewSections/MovieDirector/MovieDirector';
+
+import './MovieView.scss';
 
 export const MovieView = ({ movies, user, token, setUser }) => {
   const { movieId } = useParams();
