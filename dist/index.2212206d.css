@@ -1,3 +1,210 @@
+.search-bar {
+  background-color: #0000001a;
+  border-radius: 50px;
+  width: 20%;
+  min-width: 160px;
+  border: 0 !important;
+}
+
+.search-bar .custom-form-control {
+  height: 30px;
+  font-size: 14px;
+}
+
+.search-bar .form-control:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.heading-left {
+  font-size: 4rem;
+}
+
+@media (width <= 992px) {
+  .heading-left {
+    font-size: 4rem;
+  }
+}
+
+@media (width <= 768px) {
+  .heading-left {
+    font-size: 3rem;
+  }
+}
+
+@media (width <= 576px) {
+  .heading-left {
+    font-size: 2rem;
+  }
+}
+
+@media (width >= 993px) {
+  .left-wrapper {
+    padding: 6rem;
+  }
+}
+
+@media (width <= 992px) {
+  .left-wrapper {
+    padding: 5rem;
+  }
+}
+
+@media (width <= 768px) {
+  .left-wrapper {
+    padding: 4rem;
+  }
+}
+
+@media (width <= 576px) {
+  .left-wrapper {
+    padding: 5rem 1rem;
+  }
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+}
+
+.favorite-button1 {
+  height: "35";
+  opacity: 1;
+}
+
+.favorite-button1:hover {
+  opacity: .8;
+  transition: transform .3s;
+  transform: scale(1.1);
+}
+
+.icon-wrapper2 {
+  padding: 6px 12px;
+}
+
+.icon-wrapper2 .favorite-button2 {
+  fill: #fff;
+  opacity: .8;
+  height: 40px;
+}
+
+.icon-wrapper2 .favorite-button2:hover {
+  fill: #fff;
+  opacity: 1;
+}
+
+.movie-card-wrapper .movie-card {
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.movie-card-wrapper .hovered-movie-card {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s .3s, opacity .3s ease-in-out;
+}
+
+.movie-hero-wrapper {
+  flex-direction: column;
+  justify-content: end;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.movie-hero-wrapper .shadow-gradient {
+  background: linear-gradient(#0000, #000);
+  height: 80%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.movie-hero-wrapper .movie-details {
+  clear: both;
+  flex-wrap: wrap;
+  padding: 2px;
+  display: flex;
+}
+
+.movie-hero-wrapper .back-button-wrapper {
+  padding: 6px 12px;
+}
+
+.movie-hero-wrapper .back-button-wrapper .back-button {
+  fill: #fff;
+  opacity: .7;
+  height: 40px;
+}
+
+.movie-hero-wrapper .back-button-wrapper .back-button:hover {
+  fill: #fff;
+  opacity: 1;
+}
+
+.text-shadow {
+  text-shadow: 0 0 10px #00000080;
+}
+
+@media (width <= 991.98px) {
+  .hide-on-small {
+    display: none;
+  }
+}
+
+.movie-director {
+  height: 300px;
+}
+
+.director-section {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 1em;
+}
+
+.director-section .director-text .director-bio {
+  max-height: 190px;
+  position: relative;
+  overflow: hidden;
+}
+
+.director-section .director-text .director-bio .bio-content {
+  max-height: 220px;
+  padding-right: 1em;
+  position: relative;
+  overflow-y: auto;
+}
+
+.director-section .director-text .director-bio:after {
+  content: "";
+  background: linear-gradient(#fff0, #f8f9fa 100%);
+  width: 100%;
+  height: 15px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.director-section .director-text .director-portrait {
+  object-fit: cover;
+  width: 100%;
+  max-height: 300px;
+}
+
+@media (width >= 992px) {
+  .director-bio:after {
+    display: none;
+  }
+}
+
+img {
+  z-index: 0;
+  width: 100%;
+  position: relative;
+}
+
 .movie-card-wrapper {
   z-index: 1;
   padding: 1rem;
@@ -17,6 +224,8 @@
 
 .movie-card-wrapper .movie-card {
   border: 0;
+  max-width: 370px;
+  max-height: 190px;
   padding: 0;
   overflow: hidden;
 }
@@ -24,8 +233,8 @@
 .movie-card-wrapper .movie-card .movie-image {
   object-fit: cover;
   filter: brightness(120%) saturate(110%);
-  width: 370px;
-  height: 190px;
+  width: 100%;
+  height: 100%;
 }
 
 .movie-card-wrapper .movie-card .shadow-gradient {
@@ -59,6 +268,7 @@
 .movie-card-wrapper .hovered-movie-card {
   visibility: hidden;
   opacity: 0;
+  max-width: 370px;
   transition: visibility 0s .3s, opacity .3s ease-in-out;
 }
 
@@ -75,23 +285,9 @@
   position: absolute;
 }
 
-img {
-  z-index: 0;
-  width: 100%;
-  position: relative;
-}
-
-img.shadow-gradient:after {
-  content: "";
-  z-index: 1;
-  background: linear-gradient(to top, #0000, #000c);
-  position: absolute;
-  inset: 0;
-}
-
-.logo {
-  width: 100px;
-  height: 100px;
+.signup-background, .login-background {
+  background-color: #181818;
+  height: 93vh;
 }
 
 :root, [data-bs-theme="light"] {
