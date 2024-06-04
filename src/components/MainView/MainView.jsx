@@ -2,6 +2,9 @@ import axios from 'axios';
 import { API_URL } from '../../../utils/constants';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserandToken, logout } from '../../store/user/userSlice';
+import { selectUser, selectToken } from '../../store/user/userSelectors';
 
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
@@ -15,13 +18,15 @@ import { ProfileView } from '../ProfileView/ProfileView';
 import './MainView.scss';
 
 export const MainView = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+  const dispatch = useDispatch();
+  
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const updateUser = (updatedUser) => {
-    setUser(updatedUser);
+    dispatch(setUserandToken({ user: updatedUser, token: token }));
   };
 
   useEffect(() => {
@@ -77,10 +82,8 @@ export const MainView = () => {
       <NavigationBar
         user={user}
         onLoggedOut={() => {
-          setUser(null);
-          setToken(null);
-          localStorage.clear();
-        }}
+            dispatch(logout());
+          }}
       />
       <Routes>
         <Route 
@@ -108,8 +111,7 @@ export const MainView = () => {
                 <Container fluid className="login-background">
                   <LoginView 
                     onLoggedIn={(user, token) => {
-                      setUser(user);
-                      setToken(token);
+                      dispatch(setUserandToken({ user, token }));
                     }} 
                   />
                 </Container>

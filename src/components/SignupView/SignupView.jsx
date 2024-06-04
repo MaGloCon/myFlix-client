@@ -2,9 +2,11 @@ import{ useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { API_URL } from '../../../utils/constants';
-import {Row, Col, Card, Form, Button, Image} from 'react-bootstrap';
+import {Alert, Row, Col, Card, Form, Button, Image} from 'react-bootstrap';
 import design from '../../assets/design.svg';
 import './SignupView.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../../store/user/userSlice';
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -12,34 +14,20 @@ export const SignupView = () => {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const navigate = useNavigate();
+ const dispatch = useDispatch();
+ const { status, error } = useSelector(state => state.user);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
+      username: username,
+      password: password,
+      email: email,
+      birthday: birthday
     };
 
-    try {
-      const response = await axios.post(`${API_URL}/users/signup`, data, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }); 
-
-      if (response.status === 201) {
-        alert("Signup successful");
-        navigate('/login');
-      } else {
-        alert("Signup failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    dispatch(signupUser(data));
   };
 
   return (
@@ -57,6 +45,8 @@ export const SignupView = () => {
         <Card className="h-100">
           <Card.Title className="fs-1 text-center mt-5">Create an Account</Card.Title>
           <Card.Body className="mt-4">
+            {status === 'failed' && <Alert variant="danger">{error}</Alert>}
+            {status === 'succeeded' && <Alert variant="success">Signup successful</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="Username">
                 <Form.Label className="fs-6">Username <span className="text-danger">*</span></Form.Label>

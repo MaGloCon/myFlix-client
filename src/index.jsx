@@ -1,11 +1,15 @@
 import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import store from './store/store';
 import { MainView } from "./components/MainView/MainView";
 import 'bootstrap/scss/bootstrap.scss'; 
 
 const CinephileApplication = () => {
   
   return (
-    < MainView />
+    <Provider store={store}>
+      <MainView />
+    </Provider>
   );
 };
 
