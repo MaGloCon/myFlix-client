@@ -1,8 +1,8 @@
 import { Modal, Button } from 'react-bootstrap';
 import { UpdateForm } from './UpdateForm.jsx';
 import propTypes from 'prop-types';
-import '../../../../utils/propTypes';
-import { userPropType, tokenPropType } from '../../../../utils/propTypes';
+import '../../../utils/propTypes.js';
+import { userPropType, tokenPropType } from '../../../utils/propTypes.js';
 
 export function UpdateModal({ user, token, show, onHide, profileUpdateData, handleUpdate, handleSubmit }) {
   return (

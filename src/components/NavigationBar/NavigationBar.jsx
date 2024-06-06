@@ -6,7 +6,6 @@ import { SearchBar } from './SearchBar/SearchBar';
 export const NavigationBar = ({ user, onLoggedOut }) => {
   return (
     <Navbar bg="light" expand="lg" className="px-4">
-      {/* <Container> */}
         <Navbar.Brand as={Link} to="/">
           <img
             src={logo}          
@@ -19,9 +18,9 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
         <div>
           {!user && ( ''
             )}
-              {user && (
-          <SearchBar />
-              )}
+          {user && (
+            <SearchBar />
+          )}
         </div>
         <Navbar.Toggle 
           className="border-0"
@@ -40,10 +39,10 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
               )}
               {user && (
                 <>
-                  {/* <Nav.Link as={Link} to="/">Home</Nav.Link> */}
+                  <Nav.Link as={Link} to="/">Home</Nav.Link>
                   <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                   <Button 
-                    variant="outline-dark" 
+                    variant="dark" 
                     onClick={onLoggedOut}
                     >
                     Logout
@@ -52,8 +51,6 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
               )}
             </Nav>
           </Navbar.Collapse>
-         
-     {/* </Container> */}
     </Navbar>
   );
 };

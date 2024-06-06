@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { userPropType, tokenPropType, moviePropType } from '../../../utils/propTypes'
+import { userPropType, tokenPropType, moviePropType } from '../../utils/propTypes'
 import { Link } from 'react-router-dom';
 import { ToggleFavoriteButton1 } from '../FavoriteButtons/FavoriteButtons';
 import { Button, Card } from 'react-bootstrap';

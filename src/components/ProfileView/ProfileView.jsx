@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import { Button, Card, Container, Row, Col, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
 import { FaCog } from 'react-icons/fa';
 
-import { API_URL } from '../../../utils/constants.js';
-import { moviePropType, userPropType, tokenPropType } from '../../../utils/propTypes'; 
+import { API_URL } from '../../utils/constants.js';
+import { moviePropType, userPropType, tokenPropType } from '../../utils/propTypes.js'; 
+
 
 import { UserInfo } from './MyProfile/UserInfo.jsx';
 import { UpdateModal } from './MyProfile/UpdateDeleteUserModals';
@@ -104,14 +105,16 @@ export const ProfileView = ({ user, token, movies, setUser }) => {
  return (
     <>
         <Container>
-          <Row className="mt-5 bg-light shadow-sm">
-            <h3 className='p-2 bg-dark text-white '>My Profile</h3>
+          <Row className="mt-5 bg-light border border-secondary shadow-sm rounded">
+            <h3 className="p-2 bg-dark text-white text-center fw-light">My Profile</h3>
             <Container className="p-3">
-              <UserInfo user={user}/>
-              <DropdownButton variant="dark" className='border-1' id="setting-dropdown" title={<FaCog />}>
-                <Dropdown.Item onClick={() => setModalShow(true)}>Update Info</Dropdown.Item>
-                <Dropdown.Item onClick={() => setDeleteModalShow(true)}>Delete Account</Dropdown.Item>
-              </DropdownButton>
+              <UserInfo user={user} />
+              <div className="d-flex justify-content-end">
+                <DropdownButton variant="dark" className='border-1' id="setting-dropdown" title={<FaCog />}>
+                  <Dropdown.Item onClick={() => setModalShow(true)}>Update Info</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setDeleteModalShow(true)}>Delete Account</Dropdown.Item>
+                </DropdownButton>
+              </div>
                 <UpdateModal
                   show={modalShow}
                   onHide={() => setModalShow(false)}

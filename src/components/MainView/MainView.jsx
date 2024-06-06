@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { API_URL } from '../../../utils/constants';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserandToken, logout } from '../../store/user/userSlice';
+import { setUser, setToken, logout } from '../../store/user/userSlice';
 import { selectUser, selectToken } from '../../store/user/userSelectors';
+import { fetchMovies } from '../../store/movies/moviesSlice';
+import { selectMovies, selectIsLoading } from '../../store/movies/moviesSelectors';
 
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
 
@@ -20,56 +20,32 @@ import './MainView.scss';
 export const MainView = () => {
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
+  const movies = useSelector(selectMovies);
+  const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
-  
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
+  const [isRendering, setIsRendering] = useState(true); // New state variable
+  
   const updateUser = (updatedUser) => {
-    dispatch(setUserandToken({ user: updatedUser, token: token }));
+    dispatch(setUser(updatedUser));
+    dispatch(setToken(token));
   };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      if (!token) return;
+    if (token) {
+      dispatch(fetchMovies());
+    }
+  }, [token, dispatch]);
 
-      setIsLoading(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsRendering(false);
+    }, 600);
 
-      try {
-        const response = await axios.get(`${API_URL}/movies`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+    return () => clearTimeout(timer);
+  }, []);
 
-        if (response.data) {
-          const moviefromApi = response.data.map((movie) => ({
-            id: movie._id,
-            image: movie.ImagePath,
-            title: movie.Title,
-            titleOriginal: movie.TitleOrigin,
-            description: movie.Description,
-            year: movie.Year,
-            countries: movie.Countries,
-            genre: movie.Genre,
-            director: movie.Director,
-            actors: movie.Actors,
-            featured: movie.Featured,
-          }));
-
-          setMovies(moviefromApi);
-        } else {
-          console.error('Movie data is not available');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMovies();
-  }, [token]);
-
-  if (isLoading) {
+  if (isLoading || isRendering) {
     return (
       <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
         <Spinner animation="grow" />
@@ -111,8 +87,9 @@ export const MainView = () => {
                 <Container fluid className="login-background">
                   <LoginView 
                     onLoggedIn={(user, token) => {
-                      dispatch(setUserandToken({ user, token }));
-                    }} 
+                    dispatch(setUser(user));
+                    dispatch(setToken(token));
+                  }}
                   />
                 </Container>
               )}

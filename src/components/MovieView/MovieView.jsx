@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Container, Col, Row } from "react-bootstrap";
 
-import { moviePropType, userPropType, tokenPropType } from "../../../utils/propTypes";
+import { moviePropType, userPropType, tokenPropType } from "../../utils/propTypes";
 import { MovieHero } from './MovieViewSections/MovieHero/MovieHero';
 import { MovieDescription } from './MovieViewSections/MovieDescription/MovieDescription';
 import { MovieDirector } from './MovieViewSections/MovieDirector/MovieDirector';

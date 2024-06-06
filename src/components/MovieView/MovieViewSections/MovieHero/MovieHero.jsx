@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from "prop-types";
-import { moviePropType, userPropType, tokenPropType } from "../../../../../utils/propTypes";
-
-import './MovieHero.scss';
-import { Button } from 'react-bootstrap';
+import { Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import { BsArrowLeftCircle } from "react-icons/bs";
-import { ToggleFavoriteButton2 } from '../../../FavoriteButtons/FavoriteButtons';
 import { BsChevronCompactDown } from "react-icons/bs";
 
-export const MovieHero = ({ movie, user, token, setUser}) => (
+import { moviePropType, userPropType, tokenPropType } from "../../../../utils/propTypes";
+import { ToggleFavoriteButton2 } from '../../../FavoriteButtons/FavoriteButtons';
+
+import './MovieHero.scss';
+
+export const MovieHero = ({ movie, user, token, setUser}) => {
+  return (
   <div
     className="movie-image-background position-relative text-white vh-90" 
     style={{ 
@@ -25,11 +27,22 @@ export const MovieHero = ({ movie, user, token, setUser}) => (
         <div className="movie-details-container d-flex flex-column justify-content-between h-100">
           <div className="d-flex justify-content-between border-0 bg-transparent"> 
             <Link to="/">
-              <div className="back-button-wrapper">
-                <BsArrowLeftCircle 
-                  className="back-button" 
-                  size={40}/>
-              </div>
+              <OverlayTrigger
+                placement="right"
+                delay={{ show: 400}}
+                overlay={
+                  <Tooltip id={`tooltip-right`}>
+                    Back to home
+                  </Tooltip>
+                }
+              >
+                <div className="back-button-wrapper">
+                  <BsArrowLeftCircle 
+                    className="back-button" 
+                    size={40}
+                  />
+                </div>
+              </OverlayTrigger>
             </Link>
             <ToggleFavoriteButton2
                 user={user} 
@@ -70,6 +83,7 @@ export const MovieHero = ({ movie, user, token, setUser}) => (
     </div>
   </div>
 );
+};
 
 MovieHero.propTypes = {
   movie: moviePropType,

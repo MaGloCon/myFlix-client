@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { Toast } from 'react-bootstrap';
+import { Toast, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BsPlusCircle, BsDashCircle } from 'react-icons/bs';
 
-import { API_URL } from '../../../utils/constants';
-import { tokenPropType, userPropType, moviePropType } from '../../../utils/propTypes';
+import { API_URL } from '../../utils/constants';
+import { tokenPropType, userPropType, moviePropType } from '../../utils/propTypes';
 
 import './FavoriteButtons.scss';
 
@@ -60,9 +60,11 @@ export const useFavoriteMovies = (token) => {
 //MovieCard
 export const ToggleFavoriteButton1 = ({user, token, movie, setUser}) => {
   const [isFavorited, setIsFavorited] = useState(user.FavoriteMovies.includes(movie.id));
+  const [addIsLoading, setAddIsLoading] = useState(false);
   const { addFavoriteMovie, deleteFavoriteMovie } = useFavoriteMovies(token);
 
   const toggleFavorite = async () => {
+    setAddIsLoading(true);
     let updatedUser;
     if (isFavorited) {
       updatedUser = await deleteFavoriteMovie(user, movie.title);
@@ -71,31 +73,44 @@ export const ToggleFavoriteButton1 = ({user, token, movie, setUser}) => {
     }
     setUser(updatedUser);
     setIsFavorited(!isFavorited);
+    setTimeout(() => setAddIsLoading(false), 500);
   };
 
   return (
-    <div onClick={toggleFavorite}>
-      {isFavorited 
-        ? <BsDashCircle 
-            size={35} 
-            className="favorite-button" 
-          /> 
-        : <BsPlusCircle 
-            size={35} 
-            className="favorite-button" 
-          />}
-    </div>
+    <OverlayTrigger
+      placement="right"
+      delay={{ show: 500}}
+      overlay={
+        <Tooltip id={`tooltip-right`}>
+          {isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+        </Tooltip>
+      }
+    >
+      <div onClick={addIsLoading ? null :toggleFavorite}>
+        {isFavorited 
+          ? <BsDashCircle 
+              size={35} 
+              className="favorite-button" 
+            /> 
+          : <BsPlusCircle 
+              size={35} 
+              className="favorite-button" 
+            />}
+      </div>
+    </OverlayTrigger>
   );
 };
 
 //MovieView/MovieHero
 export const ToggleFavoriteButton2 = ({user, token, movie, setUser, setShowToast, setToastMessage}) => {
   const [isFavorited, setIsFavorited] = useState(user.FavoriteMovies.includes(movie.id));
+  const [addIsLoading, setAddIsLoading] = useState(false);
   const { addFavoriteMovie, deleteFavoriteMovie } = useFavoriteMovies(token);
   // const [showToast, setShowToast] = useState(false);
   // const [toastMessage, setToastMessage] = useState('');
 
   const toggleFavorite = async () => {
+    setAddIsLoading(true);
     let updatedUser;
     if (isFavorited) {
       updatedUser = await deleteFavoriteMovie(user, movie.title);
@@ -106,11 +121,20 @@ export const ToggleFavoriteButton2 = ({user, token, movie, setUser, setShowToast
     }
     setUser(updatedUser);
     setIsFavorited(!isFavorited);
+    setTimeout(() => setAddIsLoading(false), 500);
     // setShowToast(true);
   };
 
   return (
-    <>
+    <OverlayTrigger
+      placement="left"
+      delay={{ show: 400}}
+      overlay={
+        <Tooltip id={`tooltip-left`}>
+          {isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+        </Tooltip>
+      }
+    >
       <div 
         className="icon-wrapper2"
         onClick={toggleFavorite}
@@ -127,7 +151,7 @@ export const ToggleFavoriteButton2 = ({user, token, movie, setUser, setShowToast
               className="favorite-button2"
             />}
       </div>
-    </>
+    </OverlayTrigger>
   );
 }
 
@@ -144,6 +168,15 @@ export const DeleteFavoriteButton = ({user, token, movie, setUser, setShowToast,
 
   return (
     <>
+    <OverlayTrigger
+      placement="right"
+      delay={{ show: 400}}
+      overlay={
+        <Tooltip id={`tooltip-right`}>
+          Remove from favorites
+        </Tooltip>
+      }
+    >
       <div onClick={removeFavorite}>
         <BsDashCircle 
           size={35} 
@@ -156,6 +189,7 @@ export const DeleteFavoriteButton = ({user, token, movie, setUser, setShowToast,
         </Toast.Header>
         <Toast.Body>Movie removed from favorites</Toast.Body>
       </Toast> */}
+      </OverlayTrigger>
     </>
   );
 };

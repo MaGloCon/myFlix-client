@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_URL } from '../../../utils/constants';
+import { API_URL } from '../../utils/constants';
 
 export const signupUser = createAsyncThunk(
   'user/signupUser',
@@ -55,12 +55,18 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserandToken: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("token", action.payload.token);
+    setUser: (state, action) => {
+      state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+      localStorage.setItem("token", action.payload);
+    },  
+    updateUser: (state, action) => {
+    state.user = { ...state.user, ...action.payload };
+    localStorage.setItem("user", JSON.stringify(state.user));
+  },
     logout: (state) => {
       state.user = null;
       state.token = null;
@@ -96,6 +102,6 @@ const userSlice = createSlice({
   }
 });
 
-export const { setUserandToken, logout } = userSlice.actions;
+export const { setUser, setToken, logout } = userSlice.actions;
 
 export default userSlice.reducer;
