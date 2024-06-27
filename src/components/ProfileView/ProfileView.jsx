@@ -1,20 +1,35 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Card, Container, Row, Col, Modal, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, DropdownButton } from 'react-bootstrap';
 import { FaCog } from 'react-icons/fa';
 
+import { updateUser } from '../../store/user/userSlice';
 import { API_URL } from '../../utils/constants.js';
 import { moviePropType, userPropType, tokenPropType } from '../../utils/propTypes.js'; 
-
 
 import { UserInfo } from './MyProfile/UserInfo.jsx';
 import { UpdateModal } from './MyProfile/UpdateDeleteUserModals';
 import { DeleteModal } from './MyProfile/UpdateDeleteUserModals';
 import {FavoriteMovies} from './FavoriteMovies/FavoriteMovies';
 
-export const ProfileView = ({ user, token, movies, setUser }) => {
+
+const useUserUpdate = (initialUser) => {
+  const dispatch = useDispatch();
+  const [user, setUser] = useState(initialUser);
+
+  const handleUpdateUser = (updatedUser) => {
+    dispatch(updateUser(updatedUser));
+    setUser(updatedUser);
+  };
+
+  return [user, handleUpdateUser];
+};
+
+export const ProfileView = ({ user: initialUser, token, movies, setUser }) => {
+  const [user, handleUpdateUser] = useUserUpdate(initialUser);
   const [username, setUsername]= useState(user ? user.Username : '');
   const [email, setEmail] = useState(user ? user.Email : '');
   const [password, setPassword]= useState('');
@@ -54,7 +69,7 @@ export const ProfileView = ({ user, token, movies, setUser }) => {
         const updatedUser = response.data;
         if (updatedUser) {
           localStorage.setItem('user', JSON.stringify(updatedUser));
-          updateUser(updatedUser);
+          handleUpdateUser(updatedUser); 
         }
       } else {
         alert("Update failed");

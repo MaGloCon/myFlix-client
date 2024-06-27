@@ -1,4 +1,4 @@
-import { Container, Navbar, Nav, Button} from "react-bootstrap";
+import { Navbar, Nav, Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo2.svg";
 import { SearchBar } from './SearchBar/SearchBar';
@@ -53,4 +53,8 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
           </Navbar.Collapse>
     </Navbar>
   );
+};
+
+NavigationBar.propTypes = {
+  
 };

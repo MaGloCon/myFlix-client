@@ -24,7 +24,7 @@ export const MainView = () => {
   const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
 
-  const [isRendering, setIsRendering] = useState(true); // New state variable
+  const [isRendering, setIsRendering] = useState(true); 
   
   const updateUser = (updatedUser) => {
     dispatch(setUser(updatedUser));

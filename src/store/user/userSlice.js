@@ -44,6 +44,22 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async (updatedUser, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${API_URL}/users/update`, updatedUser);
+      return response.data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")),
   token: localStorage.getItem("token"),
@@ -96,6 +112,18 @@ const userSlice = createSlice({
         state.status = 'succeeded';
       })
       .addCase(signupUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload ? action.payload.message : action.error.message;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload.user;
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload ? action.payload.message : action.error.message;
       });
