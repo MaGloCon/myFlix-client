@@ -18,23 +18,25 @@ This project aims to cater to movie enthusiasts by providing a platform for movi
 
 ## Configuration
 
-The application is configured with the following dependencies:
+The application incorporates a variety of libraries and frameworks to enhance its functionality and user interface:
 
-- **Axios**: For making HTTP requests.
-- **Bootstrap and React-Bootstrap**: For styling and layout.
-- **Parcel**: As the web application bundler.
-- **Prop-Types**: For type-checking React component props.
-- **React, React-Dom**: Core React libraries.
-- **React-Icons**: For adding icons to the React application.
-- **React-Redux**: For integrating Redux with React components.
-- **React-Router, React-Router-Dom**: For routing within the application.
-- **Redux**: For state management.
-- **reduxjs/toolkit**: For efficient Redux store management.
+- **Axios**: Utilized for executing HTTP requests to external APIs.
+- **Bootstrap & React-Bootstrap**: Employed to ensure the application is visually appealing and responsive across different devices.
+- **Prop-Types**: Integrated for validating the properties passed to React components, ensuring they match expected types.
+- **React & React-Dom**: The core of the application, used for building the user interface with a component-based architecture.
+- **React-Icons**: Adds a wide range of icons, enhancing the visual elements of the UI.
+- **React-Redux**: Connects the Redux state management library with React components, facilitating state management across the application.
+- **React-Router & React-Router-Dom**: Provides the routing mechanism, allowing navigation between different components without reloading the page.
+- **Redux**: A state management library that helps manage the application's state in a predictable way.
+- **reduxjs/toolkit**: Offers a set of tools to streamline Redux development, making it easier to write Redux logic.
 
-The application is configured with the following dev-dependencies:
+### Development Dependencies
 
-- @parcel/transformer-sass: For compiling SASS files.
-- buffer, process: Polyfills for Node.js global variables.
+For development, the project utilizes:
+
+- **Parcel**: Chosen for its simplicity and speed as a web application bundler, facilitating the development process.
+- **@parcel/transformer-sass**: A plugin for Parcel to compile SASS files into CSS, enabling the use of advanced styling features.
+- **buffer, process**: These polyfills are included to mimic certain Node.js global variables, ensuring compatibility in the web environment.
 
 
 ## Getting Started
