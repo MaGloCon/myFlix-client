@@ -35,6 +35,56 @@ export const fetchMovies = createAsyncThunk(
   }
 );
 
+export const searchMovies = createAsyncThunk(
+  'movies/searchMovies',
+  async ( title, { getState }) => {
+    const { token } = getState().user;
+    // const queryParameters = new URLSearchParams();
+
+    // const apiSearchableFields = {
+    //   Title: 'Title',
+    //   Year: 'Year',
+    //   Countries: 'Countries',
+    //   Languages: 'Languages', 
+    //   Genre: 'Genre.Name',
+    //   Director: 'Director.Name',
+    //   Actors: 'Actors.Name', 
+    // };
+
+    // Object.keys(searchParams).forEach((key) => {
+    //   if (key in apiSearchableFields) {
+    //     queryParameters.append(apiSearchableFields[key], searchParams[key]);
+    //   }
+    // });
+
+    // if (searchParams.decade) {
+    //   const startYear = searchParams.decade.substring(0, 4); // Extract start year from decade
+    //   const endYear = (parseInt(startYear) + 9).toString(); // Calculate end year of the decade
+    //   queryParameters.append('Year[gte]', startYear);
+    //   queryParameters.append('Year[lte]', endYear);
+    // }
+
+    const response = await axios.get(`${API_URL}/movies/search?Title=${title}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return response.data.map((movie) => ({
+      id: movie._id,
+      image: movie.ImagePath,
+      title: movie.Title,
+      titleOriginal: movie.TitleOrigin,
+      description: movie.Description,
+      year: movie.Year,
+      countries: movie.Countries,
+      genre: movie.Genre ? movie.Genre.Name : undefined,
+      director: movie.Director ? movie.Director.Name : undefined,
+      actors: movie.Actors,
+      featured: movie.Featured,
+      // Map additional fields as necessary
+    }));
+  }
+);
+
 export const movieSlice = createSlice({
   name: 'movies',
   initialState: {
@@ -55,6 +105,10 @@ export const movieSlice = createSlice({
       .addCase(fetchMovies.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(searchMovies.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.movies = action.payload;
       });
   },
 });

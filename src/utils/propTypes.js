@@ -24,7 +24,7 @@ export const moviePropType = PropTypes.shape({
       name: PropTypes.string,
       description: PropTypes.string,
     })
-  ).isRequired,
+  ),
   director: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -33,7 +33,7 @@ export const moviePropType = PropTypes.shape({
       birth: PropTypes.string,
       death: PropTypes.string,
     })
-  ).isRequired,
+  ),
   actors: PropTypes.arrayOf(PropTypes.string),
 });
 

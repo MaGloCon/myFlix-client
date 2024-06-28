@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, setToken, logout } from '../../store/user/userSlice';
 import { selectUser, selectToken } from '../../store/user/userSelectors';
-import { fetchMovies } from '../../store/movies/moviesSlice';
+import { fetchMovies, searchMovies } from '../../store/movies/moviesSlice';
 import { selectMovies, selectIsLoading } from '../../store/movies/moviesSelectors';
 
 import { Container, Col, Row, Spinner} from 'react-bootstrap';
@@ -25,6 +25,10 @@ export const MainView = () => {
   const dispatch = useDispatch();
 
   const [isRendering, setIsRendering] = useState(true); 
+
+  const handleSearch = (searchTerm) => {
+    dispatch(searchMovies(searchTerm));
+  };
   
   const updateUser = (updatedUser) => {
     dispatch(setUser(updatedUser));
@@ -59,7 +63,8 @@ export const MainView = () => {
         user={user}
         onLoggedOut={() => {
             dispatch(logout());
-          }}
+        }}
+        onSearch={handleSearch}
       />
       <Routes>
         <Route 
@@ -104,14 +109,13 @@ export const MainView = () => {
               {!user ? (
                 <Navigate to="/login" replace />
               ) : (
-                
-                  <ProfileView
-                    user={user}
-                    movies={movies}
-                    token={token}
-                    setUser={updateUser}
-                  />
-              
+                (movies.length) && 
+                <ProfileView
+                  user={user}
+                  movies={movies}
+                  token={token}
+                  setUser={updateUser}
+                />
               )}
             </>
           }
@@ -146,7 +150,7 @@ export const MainView = () => {
               ) : movies.length === 0 ? (
                 <Container className="d-flex justify-content-center">The list is empty!</Container>
               ) : (
-              <Container>
+              <Container> 
                 <Row className="d-flex justify-content-center">
                   {movies.map((movie) => (
                     <Col xs={'auto'} xl={4} xxl={'auto'} key={movie.id}>

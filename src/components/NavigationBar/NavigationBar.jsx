@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo2.svg";
 import { SearchBar } from './SearchBar/SearchBar';
 
-export const NavigationBar = ({ user, onLoggedOut }) => {
+export const NavigationBar = ({ user, onLoggedOut, onSearch }) => {
   return (
     <Navbar bg="light" expand="lg" className="px-4">
         <Navbar.Brand as={Link} to="/">
@@ -19,7 +19,7 @@ export const NavigationBar = ({ user, onLoggedOut }) => {
           {!user && ( ''
             )}
           {user && (
-            <SearchBar />
+            <SearchBar onSearch={onSearch} />
           )}
         </div>
         <Navbar.Toggle 
